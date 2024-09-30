@@ -1,33 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.gjs-two-color {
+  color: #9e9e9e !important;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.gjs-four-color-h:hover {
+  color: #ffffff !important;
+  cursor: grab !important;
 }
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.gjs-four-color {
+  color: #ffffff !important;
 }
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+html {
+  overflow: hidden !important;
+}
+#gjs {
+  height: 38rem !important;
+  overflow: scroll;
+  overflow-x: hidden;
 }
