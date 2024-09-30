@@ -15,19 +15,7 @@ function Home() {
       width: "100%",
       storageManager: false,
       plugins: ["gjs-preset-webpage", plugin, thePlugin],
-      components: ` <div data-gjs-droppable="true" class="container">
-      <div class="col-md-12">
-      <div class="row">
-      <div class="col-md-6">
-        <img src="" alt="Image" class="img-fluid">
-      </div>
-      <div class="col-md-6">
-        <h2>Your Content Heading</h2>
-        <p>Your content goes here. You can add paragraphs, lists, or any other HTML elements.</p>
-      </div>
-    </div>
-      </div>
-    </div>`,
+      components: `select`,
       deviceManager: {
         devices: [
           {
