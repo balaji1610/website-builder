@@ -27,28 +27,30 @@ export default function selectTemplate() {
 
   return (
     <div>
+      <div>
+        <h1 style={{ margin: "2rem 0 2rem 2rem" }}>Starter Templates</h1>
+      </div>
       {blocks.map((el) => {
         return (
           <div
-            className="card"
             style={{
               width: "16rem",
-              border: "1px solid gray",
+              border: "1px solid #DFDFDE",
               cursor: "pointer",
+              display: "inline-block",
+              margin: "25px",
+              backgroundColor: "#fff",
             }}
             onClick={() => handleOnBlock(el.title)}
             title={el.title}
           >
             <Image
               src={el.img}
-              className="card-img-top"
-              alt="ddd"
-              style={{ width: "16rem", objectFit: "contain", height: "7rem" }}
+              alt={el.title}
+              style={{ width: "16rem", objectFit: "fill", height: "10rem" }}
             />
-            <div className="card-body">
-              <h2 className="card-title" style={{ textAlign: "center" }}>
-                {el.title}
-              </h2>
+            <div>
+              <h3 style={{ textAlign: "center", color: "gray" }}>{el.title}</h3>
             </div>
           </div>
         );
