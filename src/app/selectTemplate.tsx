@@ -2,10 +2,10 @@
 import { useRouter } from "next/navigation";
 import HeroImage from "../../public/blocks-image/heroImage.png";
 import Image from "next/image";
-
+import Canvas from "./components/canvas";
+import { useState } from "react";
 export default function selectTemplate() {
   const router = useRouter();
-
   const handleOnBlock = () => {
     router.push("/canvas");
   };
