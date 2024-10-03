@@ -2,6 +2,8 @@
 import { useRouter } from "next/navigation";
 import HeroImage from "../../public/blocks-image/heroImage.png";
 import Testimonial from "../../public/blocks-image/testimonial.png";
+import Architect from "../../public/blocks-image/Architect.png";
+import Myblog from "../../public/blocks-image/Mybolg.png";
 import Image from "next/image";
 import Canvas from "./components/canvas";
 import { useState } from "react";
@@ -16,12 +18,12 @@ export default function selectTemplate() {
 
   const blocks = [
     {
-      img: HeroImage,
-      title: "Hero",
+      img: Myblog,
+      title: "Blog Template",
     },
     {
-      img: Testimonial,
-      title: "Testimonial",
+      img: Architect,
+      title: "Architect Template",
     },
   ];
 
@@ -47,7 +49,7 @@ export default function selectTemplate() {
             <Image
               src={el.img}
               alt={el.title}
-              style={{ width: "16rem", objectFit: "fill", height: "10rem" }}
+              style={{ width: "16rem", objectFit: "cover", height: "10rem" }}
             />
             <div>
               <h3 style={{ textAlign: "center", color: "gray" }}>{el.title}</h3>

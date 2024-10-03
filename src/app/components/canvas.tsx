@@ -14,20 +14,19 @@ import { useApplicationContext } from "../context/applicationContext";
 
 export default function canvasPage() {
   const { currentBlock } = useApplicationContext();
-  let canvasBlock;
+  let canvasBlock: string | URL | Request;
 
   switch (currentBlock) {
-    case "Hero":
-      canvasBlock = <Hero />;
+    case "Blog Template":
+      canvasBlock = "/blog.html";
       break;
-    case "Testimonial":
-      canvasBlock = <Testimonial />;
+    case "Architect Template":
+      canvasBlock = "/architect.html";
       break;
     default:
       canvasBlock = "";
   }
 
-  const prepareBlock = ReactDOMServer.renderToStaticMarkup(canvasBlock);
   useEffect(() => {
     const editor = grapesjs.init({
       container: "#gjs",
@@ -35,7 +34,6 @@ export default function canvasPage() {
       width: "100%",
       storageManager: false,
       plugins: ["gjs-preset-webpage", plugin, thePlugin],
-      components: prepareBlock,
       deviceManager: {
         devices: [
           {
@@ -92,7 +90,6 @@ export default function canvasPage() {
         ],
       },
     });
-
     editor.BlockManager.add("bootstrap-Image-Text", {
       label: "Image-Text",
       category: "Basic",
@@ -496,7 +493,6 @@ export default function canvasPage() {
         },
       },
     });
-
     const blockIds = [
       "column1",
       "column2",
@@ -505,6 +501,13 @@ export default function canvasPage() {
       "text",
       "link",
     ];
+
+    fetch(canvasBlock)
+      .then((response) => response.text())
+      .then((htmlContent) => {
+        editor.setComponents(htmlContent);
+      })
+      .catch((error) => console.error("Error", error));
 
     blockIds.forEach((blockId) => {
       editor.BlockManager.remove(blockId);
