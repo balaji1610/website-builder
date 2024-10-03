@@ -320,22 +320,15 @@ export default function canvasPage() {
         </svg>`,
       content: `<div style="margin-top:25px">
           <div>
-          <img src="https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/hero/5/background.png" alt="hero" height="450px" width="100%" style="position:relative;object-fit:cover" />
+          <img src="https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/hero/5/background.png" alt="hero" height="350px" width="100%" style="position:relative;object-fit:cover" />
           </div>
           <div style="position:absolute;top:15%;left:10%">
           <div class="container-fluid">
           <div class="col-md-12 col-sm-12">
-          <div class="row">
-          <div class="col-md-6 col-sm-6">
-        <div style="color:#fff;margin-bottom:40px;font-size:33px;text-align: center;font-weight:bold;">Find the best office accessories in one tap</div>
-        <div style="color: rgba(212, 212, 216);font-size:20px;line-height: 31px;letter-spacing: 1px;">Clarity gives you the blocks & components you need to create a truly professional website, landing page or admin panel for SaaS.Clarity gives you the blocks & components you need to create a truly professional website, landing page or admin panel for SaaS.</div>
+          <div style="color:#fff;margin-bottom:40px;text-align:center;font-weight:bold;width:31rem;margin-left: 14rem;text-align: center"><h1>Find the best office accessories in one tap</h1></div>
           </div>
-          <div class="col-md-6  col-sm-6">
-          <div style="margin-left:100px;">
-           <img src="https://landingfoliocom.imgix.net/store/collection/saasui/images/hero/5/portrait-girl.png" alt="hero-left" height="355px" width="257px" style="border-radius:35px" />
-           </div>
-          </div>
-          </div>
+          <div class="col-md-12 col-sm-12">
+          <div data-gjs-type="bootstrap-button" style="margin-left:350px"></div>
           </div>
           </div>
           </div>
@@ -354,7 +347,6 @@ export default function canvasPage() {
                   <div class="col-md-4"  style="padding-top:10px;text-align:center;">© Copyright 2022. All Rights Reserved</div>
                   <div class="col-md-4"></div>
                   <div class="col-md-4">
-
                   <div class="col-md-12">
                   <div class="row">
                   <div class="col-md-4">      <a href="https://www.facebook.com/" target="_blank">
@@ -378,8 +370,8 @@ export default function canvasPage() {
       model: {
         defaults: {
           tagName: "button",
-          classes: ["btn", "btn-primary"],
-          components: "Try it for free",
+          classes: ["btn", "btn-dark"],
+          components: "Contact US",
           traits: [
             {
               type: "text",
@@ -440,59 +432,6 @@ export default function canvasPage() {
       },
     });
 
-    editor.BlockManager.add("bootstrap-Call-To-Action", {
-      label: "Call-To-Action",
-      category: "Basic",
-
-      media: `<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-caret-up-square" viewBox="0 0 16 16">
-            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-            <path d="M3.544 10.705A.5.5 0 0 0 4 11h8a.5.5 0 0 0 .374-.832l-4-4.5a.5.5 0 0 0-.748 0l-4 4.5a.5.5 0 0 0-.082.537"/>
-          </svg>`,
-
-      content: {
-        type: "cta-section",
-        components: `
-              <div class="container" style="margin-top:16px;">
-                <div class="col-md-12">
-                  <div style="text-align:center;margin-bottom:5px;">
-                    <h1>Ready to get started ?</h1>
-                  </div>
-                  <div style="text-align:center;margin-bottom:5px;">
-                  <h6>Start running your business, the right way</h6>
-                </div>
-                  <div data-gjs-type="bootstrap-button" style="margin-left:350px"></div>
-                </div>
-              </div>`,
-      },
-    });
-
-    editor.Components.addType("cta-section", {
-      model: {
-        defaults: {
-          tagName: "div",
-          classes: ["cta-section"],
-          traits: [
-            {
-              type: "color",
-              label: "Background Color",
-              name: "background-color",
-              changeProp: true,
-            },
-          ],
-          style: {
-            "background-color": "#EDE8DC",
-            margin: "16px",
-          },
-        },
-        init() {
-          this.on("change:background-color", this.updateBackgroundColor);
-        },
-        updateBackgroundColor() {
-          const bgColor = this.get("background-color");
-          this.setStyle({ "background-color": bgColor });
-        },
-      },
-    });
     const blockIds = [
       "column1",
       "column2",
