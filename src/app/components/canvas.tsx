@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import grapesjs from "grapesjs";
 import "grapesjs/dist/css/grapes.min.css";
 import "grapesjs/dist/grapes.min.js";
@@ -14,6 +14,8 @@ import { useApplicationContext } from "../context/applicationContext";
 
 export default function canvasPage() {
   const { currentBlock } = useApplicationContext();
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   let canvasBlock: string | URL | Request;
 
   switch (currentBlock) {
@@ -28,6 +30,22 @@ export default function canvasPage() {
   }
 
   useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const response = await fetch(canvasBlock);
+        await editor.load();
+        setIsLoading(true);
+        if (response.ok) {
+          setIsLoading(false);
+          const htmlContent = await response.text();
+          editor.setComponents(htmlContent as any);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchContent();
     const editor = grapesjs.init({
       container: "#gjs",
       height: "700px",
@@ -334,37 +352,6 @@ export default function canvasPage() {
           </div>
           </div>`,
     });
-    editor.BlockManager.add("bootstrap-Footer", {
-      label: "Footer",
-      category: "Basic",
-      media: `<svg xmlns="http://www.w3.org/2000/svg" width="65" height="65" fill="currentColor" class="bi bi-window-desktop" viewBox="0 0 16 16">
-              <path d="M3.5 11a.5.5 0 0 0-.5.5v1a.5.5.0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
-              <path d="M2.375 1A2.366 2.366 0 0 0 0 3.357v9.286A2.366 2.366 0 0 0 2.375 15h11.25A2.366 2.366 0 0 0 16 12.643V3.357A2.366 2.366 0 0 0 13.625 1zM1 3.357C1 2.612 1.611 2 2.375 2h11.25C14.389 2 15 2.612 15 3.357V4H1zM1 5h14v7.643c0 .745-.611 1.357-1.375 1.357H2.375A1.366 1.366 0 0 1 1 12.643z"/>
-            </svg>`,
-      content: `<div class="container">
-              <div class="col-md-12" style="background-color:#F5F5F7;margin-top:2rem;">
-                <div class="row">
-                  <div class="col-md-4"  style="padding-top:10px;text-align:center;">© Copyright 2022. All Rights Reserved</div>
-                  <div class="col-md-4"></div>
-                  <div class="col-md-4">
-                  <div class="col-md-12">
-                  <div class="row">
-                  <div class="col-md-4">      <a href="https://www.facebook.com/" target="_blank">
-                  <i class="bi bi-facebook" style="font-size: 2rem;"></i>
-                  </a> </div>
-                  <div class="col-md-4">     <a href="https://www.facebook.com/" target="_blank">
-                  <i class="bi bi-twitter-x"  style="font-size: 2rem;"></i>
-                  </a></div>
-                  <div class="col-md-4">  <a href="https://www.facebook.com/" target="_blank">
-                  <i class="bi bi-instagram" style="font-size: 2rem;"></i>
-                  </a> </div>
-                  </div>
-                  </div>
-                  </div>
-                </div>
-              </div>
-            </div>`,
-    });
 
     editor.Components.addType("bootstrap-button", {
       model: {
@@ -431,7 +418,168 @@ export default function canvasPage() {
         },
       },
     });
+    editor.BlockManager.add("bootstrap-Footer", {
+      label: "Footer",
+      category: "Basic",
+      media: `<svg xmlns="http://www.w3.org/2000/svg" width="65" height="65" fill="currentColor" class="bi bi-window-desktop" viewBox="0 0 16 16">
+              <path d="M3.5 11a.5.5 0 0 0-.5.5v1a.5.5.0 0 0 .5.5h9a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
+              <path d="M2.375 1A2.366 2.366 0 0 0 0 3.357v9.286A2.366 2.366 0 0 0 2.375 15h11.25A2.366 2.366 0 0 0 16 12.643V3.357A2.366 2.366 0 0 0 13.625 1zM1 3.357C1 2.612 1.611 2 2.375 2h11.25C14.389 2 15 2.612 15 3.357V4H1zM1 5h14v7.643c0 .745-.611 1.357-1.375 1.357H2.375A1.366 1.366 0 0 1 1 12.643z"/>
+            </svg>`,
+      content: `<div class="container-fluid">
+              <div class="col-md-12" style="background-color:#3C486B; padding: 1rem;
+              border: 1px solid rgba(228, 228, 231);">
+                <div class="row">
+                  <div class="col-md-4"  style="padding-top:10px;text-align:center;color:#fff;">© Copyright 2024. All Rights Reserved</div>
+                  <div class="col-md-4"></div>
+                  <div class="col-md-4">
+                  <div class="col-md-12">
+                  <div class="row">
+                  <div class="col-md-3">   <a href="https://www.facebook.com/" target="_blank">
+                  <i class="bi bi-facebook" style="font-size: 1.5rem;color:#fff;"></i>
+                  </a> </div>
+                  <div class="col-md-3">  <a href="https://x.com/" target="_blank">
+                  <i class="bi bi-twitter-x" style="font-size: 1.5rem;color:#fff;"></i>
+                  </a></div>
+                  <div class="col-md-3">  <a href="https://www.instagram.com/" target="_blank">
+                  <i class="bi bi-instagram" style="font-size: 1.5rem;color:#fff;"></i>
+                  </a> </div>
 
+                  <div class="col-md-3">  <a href="https://in.linkedin.com/" target="_blank">
+                  <i class="bi bi-linkedin" style="font-size: 1.5rem;color:#fff;"></i>
+                  </a> </div>
+
+
+                  </div>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>`,
+    });
+    editor.BlockManager.add("bootstrap-clients-logo", {
+      label: "Clients-Logo",
+      category: "Basic",
+      media: `<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
+      <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+      <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
+    </svg>`,
+      content: `<div class="container-fluid" style="background-color:rgb(37 99 235);color:#fff;padding:2rem 1rem;border-radius:1rem;">
+      <div class="col-md-12 col-sm-12">
+     <div class="row">
+<div class="col-md-4 col-sm-4" style="margin-top:2rem;"><h1>Trusted by companies of all sizes</h1></div>
+<div class="col-md-8 col-sm-8">
+<img src="https://landingfoliocom.imgix.net/store/collection/saasui/images/cloud-logos/3/waverio.svg" alt="waverio" height="100px" width="160px" style="margin:1rem 8px;"/>
+<img src="https://landingfoliocom.imgix.net/store/collection/saasui/images/cloud-logos/3/logoipsum.svg" alt="logoipsum" height="100px" width="160px" style="margin:1rem 8px;"/>
+<img src="https://landingfoliocom.imgix.net/store/collection/saasui/images/cloud-logos/3/alterbone.svg" alt="alterbone" height="100px" width="160px" style="margin:1rem 8px;"/>
+<img src="https://landingfoliocom.imgix.net/store/collection/saasui/images/cloud-logos/3/carbonia.svg" alt="carbonia" height="100px" width="160px"  style="margin:1rem 8px;" />
+<img src="https://landingfoliocom.imgix.net/store/collection/saasui/images/cloud-logos/3/tinygone.svg" alt="tinygone" height="100px" width="160px" style="margin:0 8px;" />
+<img src="https://landingfoliocom.imgix.net/store/collection/saasui/images/cloud-logos/3/preso.svg" alt="preso" height="100px" width="160px"  style="margin:0 8px;" />
+<img src="https://landingfoliocom.imgix.net/store/collection/saasui/images/cloud-logos/3/ridoria.svg" alt="ridoria" height="100px" width="160px"  style="margin:0 8px;"/>
+<img src="https://landingfoliocom.imgix.net/store/collection/saasui/images/cloud-logos/3/incanto.svg" alt="incanto" height="100px" width="160px"  style="margin:0 8px;"/>
+</div>
+     </div>
+      </div>
+      </div>`,
+    });
+    editor.BlockManager.add("bootstrap-faq", {
+      label: "FAQ",
+      category: "Basic",
+      media: `<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-chevron-bar-contract" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M3.646 14.854a.5.5 0 0 0 .708 0L8 11.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708m0-13.708a.5.5 0 0 1 .708 0L8 4.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8"/>
+    </svg>`,
+      content: `<div class="container" style="height:22rem;background-color:#F5F5F5;">
+      <div class="col-md-12 col-sm-12" style="padding:1rem;">
+      <h4 style="text-align:center;">Got Questions ? We're here to <span style="color:#3b97e3;font-weight:bold;">help!</span></h4>
+       </div>
+       <div class="col-md-12 col-sm-12">
+       <div class="row">
+       <div class="col-md-6 col-sm-6">
+       <!--1--> 
+       <div class="accordion accordion-flush" id="accordionFlushExample" style="margin:1rem 0;">
+       <div class="accordion-item">
+         <h2 class="accordion-header" id="flush-headingOne">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne" style="color:#52525B;">
+           How much money can you really save me ?
+           </button>
+         </h2>
+         <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+           <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+         </div>
+       </div>
+       </div>
+       <!--2--> 
+       <div class="accordion accordion-flush" id="accordionFlushExample2"  style="margin:1rem 0;">
+       <div class="accordion-item">
+         <h2 class="accordion-header" id="flush-headingTwo">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo" style="color:#52525B;">
+           Why should we work with you when we already have a Procurement department ?
+           </button>
+         </h2>
+         <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample2">
+           <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+         </div>
+       </div>
+       </div>
+
+       <!--3--> 
+       <div class="accordion accordion-flush" id="accordionFlushExample"  style="margin:1rem 0;">
+       <div class="accordion-item">
+         <h2 class="accordion-header" id="flush-headingOne">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseOne" style="color:#52525B;">
+           How is Spendflo better than other solutions in the market ?
+           </button>
+         </h2>
+         <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+           <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+         </div>
+       </div>
+       </div>
+       </div>
+       <div class="col-md-6 col-sm-6">
+       <!--4--> 
+       <div class="accordion accordion-flush" id="accordionFlushExample"  style="margin:1rem 0;">
+       <div class="accordion-item">
+         <h2 class="accordion-header" id="flush-headingOne">
+           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFour" aria-expanded="false" aria-controls="flush-collapseOne" style="color:#52525B;">
+           What industries and businesses does Spendflo benefit the most ?
+           </button>
+         </h2>
+         <div id="flush-collapseFour" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+           <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+         </div>
+       </div>
+       </div>
+          <!--5--> 
+          <div class="accordion accordion-flush" id="accordionFlushExample"  style="margin:1rem 0;">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="flush-headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseFive" aria-expanded="false" aria-controls="flush-collapseOne" style="color:#52525B;">
+                How can we trust you with our strategic vendor relationships that we've build over time ?
+                </button>
+              </h2>
+              <div id="flush-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+              </div>
+            </div>
+            </div>
+                 <!--6--> 
+       <div class="accordion accordion-flush" id="accordionFlushExample"  style="margin:1rem 0;">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSix" aria-expanded="false" aria-controls="flush-collapseOne" style="color:#52525B;">
+            Do you also double as a SaaS management platform ?
+            </button>
+          </h2>
+          <div id="flush-collapseSix" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
+          </div>
+        </div>
+        </div>
+       </div>
+       </div>
+       </div>
+       </div>`,
+    });
     const blockIds = [
       "column1",
       "column2",
@@ -441,17 +589,14 @@ export default function canvasPage() {
       "link",
     ];
 
-    fetch(canvasBlock)
-      .then((response) => response.text())
-      .then((htmlContent) => {
-        editor.setComponents(htmlContent);
-      })
-      .catch((error) => console.error("Error", error));
-
     blockIds.forEach((blockId) => {
       editor.BlockManager.remove(blockId);
     });
   }, []);
 
-  return <div id="gjs"></div>;
+  return (
+    <div>
+      <div id="gjs"></div>
+    </div>
+  );
 }
