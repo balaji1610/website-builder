@@ -343,7 +343,13 @@ export default function canvasPage() {
           <div style="position:absolute;top:15%;left:10%">
           <div class="container-fluid">
           <div class="col-md-12 col-sm-12">
-          <div style="color:#fff;margin-bottom:40px;text-align:center;font-weight:bold;width:31rem;margin-left: 14rem;text-align: center"><h1>Find the best office accessories in one tap</h1></div>
+          <div class="row">
+          <div class="col-md-2 col-sm-2"> </div>
+          <div class="col-md-8 col-sm-8"> 
+           <div style="color:#fff;margin-bottom:40px;font-weight:bold;text-align: center"><h1>Find the best office accessories in one tap</h1></div></div>
+          <div class="col-md-2 col-sm-2"> </div>
+           </div>
+        
           </div>
           <div class="col-md-12 col-sm-12">
           <div data-gjs-type="bootstrap-button" style="margin-left:350px"></div>
