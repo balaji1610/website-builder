@@ -7,17 +7,20 @@ import plugin from "grapesjs-blocks-basic";
 import ReactDOMServer from "react-dom/server";
 // import "grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css";
 // import "grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.js";
-import Hero from "../blocks/Hero";
-import Testimonial from "../blocks/Testimonial";
 import thePlugin from "grapesjs-plugin-export";
 import { useApplicationContext } from "../context/applicationContext";
+import { updateItem } from "../services/api";
 
 export default function canvasPage() {
-  const { currentTemplate } = useApplicationContext();
+  const { currentTemplate, block } = useApplicationContext();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  let canvasBlock: string | URL | Request;
 
+  const savePage = async (template: string) => {
+    const saveTemplate = { ...currentTemplate, ["template"]: template };
+    const updateTemplate = await updateItem(currentTemplate._id, saveTemplate);
+    return updateTemplate;
+  };
   useEffect(() => {
     const editor = grapesjs.init({
       container: "#gjs",
@@ -82,7 +85,7 @@ export default function canvasPage() {
       },
     });
 
-    editor.setComponents(currentTemplate);
+    editor.setComponents(currentTemplate.template);
     editor.BlockManager.add("bootstrap-Image-Text", {
       label: "Image-Text",
       category: "Basic",
@@ -203,53 +206,6 @@ export default function canvasPage() {
           `,
     });
 
-    // editor.BlockManager.add("services", {
-    //   label: "Services",
-    //   category: "Basic",
-    //   media: `<svg xmlns="http://www.w3.org/2000/svg" width="65" height="65" fill="currentColor" class="bi bi-gear-wide" viewBox="0 0 16 16">
-    //   <path d="M8.932.727c-.243-.97-1.62-.97-1.864 0l-.071.286a.96.96 0 0 1-1.622.434l-.205-.211c-.695-.719-1.888-.03-1.613.931l.08.284a.96.96 0 0 1-1.186 1.187l-.284-.081c-.96-.275-1.65.918-.931 1.613l.211.205a.96.96 0 0 1-.434 1.622l-.286.071c-.97.243-.97 1.62 0 1.864l.286.071a.96.96 0 0 1 .434 1.622l-.211.205c-.719.695-.03 1.888.931 1.613l.284-.08a.96.96 0 0 1 1.187 1.187l-.081.283c-.275.96.918 1.65 1.613.931l.205-.211a.96.96 0 0 1 1.622.434l.071.286c.243.97 1.62.97 1.864 0l.071-.286a.96.96 0 0 1 1.622-.434l.205.211c.695.719 1.888.03 1.613-.931l-.08-.284a.96.96 0 0 1 1.187-1.187l.283.081c.96.275 1.65-.918.931-1.613l-.211-.205a.96.96 0 0 1 .434-1.622l.286-.071c.97-.243.97-1.62 0-1.864l-.286-.071a.96.96 0 0 1-.434-1.622l.211-.205c.719-.695.03-1.888-.931-1.613l-.284.08a.96.96 0 0 1-1.187-1.186l.081-.284c.275-.96-.918-1.65-1.613-.931l-.205.211a.96.96 0 0 1-1.622-.434zM8 12.997a4.998 4.998 0 1 1 0-9.995 4.998 4.998 0 0 1 0 9.996z"/>
-    // </svg>`,
-    //   content: `<div class="container">
-    //   <h1 style="text-align:center">Services</h1>
-    //   <div class="col-sm-12">
-    //   <div class="row">
-    //   <div class="col-sm-4">
-    //   <div class="card text-center" style="width: 18rem;">
-    //   <div class="card-body">
-    //   <div>
-    //   <img src="" alt="Image" class="img-fluid"     width="274px"
-    //   height= "274px">
-    //   </div>
-    //     <h5 class="card-title">Service 1</h5>
-    //     <p class="card-text">when looking at its layout. The point of using Lorem Ipsum isthat it has a more-or-less normal
-    //     </p>
-    //   </div>
-    // </div>
-    // </div>
-    //   <div class="col-sm-4"><div class="card text-center" style="width: 18rem;">
-    //   <div class="card-body">
-    //   <div>
-    //   <img src="" alt="Image" class="img-fluid">
-    //   </div>
-    //     <h5 class="card-title">Service 2</h5>
-    //     <p class="card-text">when looking at its layout. The point of using Lorem Ipsum isthat it has a more-or-less normal
-    //     </p>
-    //   </div>
-    // </div></div>
-    //   <div class="col-sm-4"><div class="card text-center" style="width: 18rem;">
-    //   <div class="card-body">
-    //   <div>
-    //   <img src="" alt="Image" class="img-fluid">
-    //   </div>
-    //     <h5 class="card-title">Service 3</h5>
-    //     <p class="card-text">when looking at its layout. The point of using Lorem Ipsum isthat it has a more-or-less normal
-    //     </p>
-    //   </div>
-    // </div></div>
-    //   </div>
-    //   </div>
-    //   </div>`,
-    // });
     editor.BlockManager.add("testimonial", {
       label: "Testimonial",
       category: "Basic",
@@ -333,7 +289,6 @@ export default function canvasPage() {
           </div>
           </div>`,
     });
-
     editor.Components.addType("bootstrap-button", {
       model: {
         defaults: {
@@ -572,6 +527,29 @@ export default function canvasPage() {
 
     blockIds.forEach((blockId) => {
       editor.BlockManager.remove(blockId);
+    });
+
+    editor.Panels.addButton("options", {
+      id: "custom-button",
+      command: "save-page",
+      label: `<button style="cursor: pointer;padding: 2px 5px 1px 5px;background-color: #0d6efd;color:#ffffff; letter-spacing: 1px;border: 1px solid #0d6efd;">SAVE</button>`,
+      attributes: {
+        title: "Save",
+      },
+    });
+
+    editor.Commands.add("save-page", {
+      run(editor) {
+        const htmlContent = `
+  <html>
+    <head>
+      <style>${editor.getCss()}</style>
+    </head>
+    <body>${editor.getHtml()}</body>
+  </html>
+`;
+        savePage(htmlContent);
+      },
     });
   }, []);
 

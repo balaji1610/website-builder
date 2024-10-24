@@ -1,9 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
-import HeroImage from "../../public/blocks-image/heroImage.png";
-import Testimonial from "../../public/blocks-image/testimonial.png";
+
 import Architect from "../../public/blocks-image/Architect.png";
 import Myblog from "../../public/blocks-image/Mybolg.png";
+import NoImage from "../../public/blocks-image/No-image.png";
 import Image from "next/image";
 import Canvas from "./components/canvas";
 import { useEffect, useState } from "react";
@@ -11,10 +11,10 @@ import { useApplicationContext } from "./context/applicationContext";
 import { getItems } from "./services/api";
 
 export default function selectTemplate() {
-  const { setCurrentTemplate } = useApplicationContext();
-  const [block, setblock] = useState([]);
+  const { setCurrentTemplate, block, setblock } = useApplicationContext();
+
   const router = useRouter();
-  const handleOnBlock = (template: string) => {
+  const handleOnBlock = (template: any) => {
     router.push("/canvas");
     setCurrentTemplate(template);
   };
@@ -39,6 +39,8 @@ export default function selectTemplate() {
       case "Architect Template":
         image = Architect;
         break;
+      default:
+        image = NoImage;
     }
     return image;
   };
@@ -72,7 +74,7 @@ export default function selectTemplate() {
               margin: "25px",
               backgroundColor: "#fff",
             }}
-            onClick={() => handleOnBlock(el.template)}
+            onClick={() => handleOnBlock(el)}
             title={el.title}
           >
             <Image

@@ -9,8 +9,10 @@ import React, {
 } from "react";
 
 interface ApplicationContextType {
-  currentTemplate: string;
-  setCurrentTemplate: Dispatch<SetStateAction<string>>;
+  currentTemplate: any;
+  setCurrentTemplate: Dispatch<SetStateAction<any>>;
+  block: any;
+  setblock: Dispatch<SetStateAction<any>>;
 }
 
 const ApplicationContext = createContext<ApplicationContextType | undefined>(
@@ -22,13 +24,15 @@ interface ContextProps {
 }
 
 const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
-  const [currentTemplate, setCurrentTemplate] = useState<string>("");
-
+  const [currentTemplate, setCurrentTemplate] = useState<any>([]);
+  const [block, setblock] = useState<any>([]);
   return (
     <ApplicationContext.Provider
       value={{
         currentTemplate,
         setCurrentTemplate,
+        block,
+        setblock,
       }}
     >
       {children}
