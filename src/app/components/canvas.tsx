@@ -13,39 +13,12 @@ import thePlugin from "grapesjs-plugin-export";
 import { useApplicationContext } from "../context/applicationContext";
 
 export default function canvasPage() {
-  const { currentBlock } = useApplicationContext();
+  const { currentTemplate } = useApplicationContext();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   let canvasBlock: string | URL | Request;
 
-  switch (currentBlock) {
-    case "Blog Template":
-      canvasBlock = "/blog.html";
-      break;
-    case "Architect Template":
-      canvasBlock = "/architect.html";
-      break;
-    default:
-      canvasBlock = "";
-  }
-
   useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const response = await fetch(canvasBlock);
-        await editor.load();
-        setIsLoading(true);
-        if (response.ok) {
-          setIsLoading(false);
-          const htmlContent = await response.text();
-          editor.setComponents(htmlContent as any);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    fetchContent();
     const editor = grapesjs.init({
       container: "#gjs",
       height: "700px",
@@ -108,6 +81,8 @@ export default function canvasPage() {
         ],
       },
     });
+
+    editor.setComponents(currentTemplate);
     editor.BlockManager.add("bootstrap-Image-Text", {
       label: "Image-Text",
       category: "Basic",

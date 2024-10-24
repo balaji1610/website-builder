@@ -6,33 +6,62 @@ import Architect from "../../public/blocks-image/Architect.png";
 import Myblog from "../../public/blocks-image/Mybolg.png";
 import Image from "next/image";
 import Canvas from "./components/canvas";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useApplicationContext } from "./context/applicationContext";
+import { getItems } from "./services/api";
+
 export default function selectTemplate() {
-  const { setCurrentBlock } = useApplicationContext();
+  const { setCurrentTemplate } = useApplicationContext();
+  const [block, setblock] = useState([]);
   const router = useRouter();
-  const handleOnBlock = (title: string) => {
+  const handleOnBlock = (template: string) => {
     router.push("/canvas");
-    setCurrentBlock(title);
+    setCurrentTemplate(template);
   };
 
-  const blocks = [
-    {
-      img: Myblog,
-      title: "Blog Template",
-    },
-    {
-      img: Architect,
-      title: "Architect Template",
-    },
-  ];
+  // const blocks = [
+  //   {
+  //     img: Myblog,
+  //     title: "Blog Template",
+  //   },
+  //   {
+  //     img: Architect,
+  //     title: "Architect Template",
+  //   },
+  // ];
+
+  const blockImage = (templateName: string) => {
+    let image;
+    switch (templateName) {
+      case "Blog Template":
+        image = Myblog;
+        break;
+      case "Architect Template":
+        image = Architect;
+        break;
+    }
+    return image;
+  };
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+  const fetchItems = async () => {
+    const data = await getItems();
+
+    const getTemplate = data.map((el: any) => {
+      return el;
+    });
+
+    setblock(getTemplate);
+  };
 
   return (
     <div>
       <div>
         <h1 style={{ margin: "2rem 0 2rem 2rem" }}>Starter Templates</h1>
       </div>
-      {blocks.map((el) => {
+      {block.map((el: any) => {
         return (
           <div
             style={{
@@ -43,11 +72,11 @@ export default function selectTemplate() {
               margin: "25px",
               backgroundColor: "#fff",
             }}
-            onClick={() => handleOnBlock(el.title)}
+            onClick={() => handleOnBlock(el.template)}
             title={el.title}
           >
             <Image
-              src={el.img}
+              src={blockImage(el.title) as any}
               alt={el.title}
               style={{ width: "16rem", objectFit: "cover", height: "10rem" }}
             />
