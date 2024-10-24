@@ -9,6 +9,8 @@ import ReactDOMServer from "react-dom/server";
 // import "grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.js";
 import thePlugin from "grapesjs-plugin-export";
 import { useApplicationContext } from "../context/applicationContext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { updateItem } from "../services/api";
 
 export default function canvasPage() {
@@ -18,9 +20,19 @@ export default function canvasPage() {
 
   const savePage = async (template: string) => {
     const saveTemplate = { ...currentTemplate, ["template"]: template };
-    const updateTemplate = await updateItem(currentTemplate._id, saveTemplate);
-    return updateTemplate;
+
+    try {
+      const response = await updateItem(currentTemplate._id, saveTemplate);
+      if (response.statusText == "OK") {
+        toast.success("Save Successfully !");
+        return response.data;
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.log(error);
+    }
   };
+
   useEffect(() => {
     const editor = grapesjs.init({
       container: "#gjs",
@@ -532,7 +544,7 @@ export default function canvasPage() {
     editor.Panels.addButton("options", {
       id: "custom-button",
       command: "save-page",
-      label: `<button style="cursor: pointer;padding: 2px 5px 1px 5px;background-color: #0d6efd;color:#ffffff; letter-spacing: 1px;border: 1px solid #0d6efd;">SAVE</button>`,
+      label: `<button style="cursor: pointer;background-color: #0d6efd;color:#ffffff;border: 1px solid #0d6efd;">SAVE</button>`,
       attributes: {
         title: "Save",
       },
@@ -556,6 +568,7 @@ export default function canvasPage() {
   return (
     <div>
       <div id="gjs"></div>
+      <ToastContainer position="bottom-right" autoClose={2000} />
     </div>
   );
 }

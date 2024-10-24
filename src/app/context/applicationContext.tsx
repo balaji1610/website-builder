@@ -26,6 +26,7 @@ interface ContextProps {
 const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
   const [currentTemplate, setCurrentTemplate] = useState<any>([]);
   const [block, setblock] = useState<any>([]);
+
   return (
     <ApplicationContext.Provider
       value={{
