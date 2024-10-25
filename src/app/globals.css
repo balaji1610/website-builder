@@ -8,6 +8,9 @@
 .gjs-four-color {
   color: #ffffff !important;
 }
+.gjs-pn-options {
+  top: -5px !important;
+}
 html {
   overflow: hidden !important;
 }

@@ -544,7 +544,7 @@ export default function canvasPage() {
     editor.Panels.addButton("options", {
       id: "custom-button",
       command: "save-page",
-      label: `<button style="cursor: pointer;background-color: #0d6efd;color:#ffffff;border: 1px solid #0d6efd;">SAVE</button>`,
+      label: `<button style="cursor: pointer">SAVE</button>`,
       attributes: {
         title: "Save",
       },
