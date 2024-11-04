@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import React from "react";
-
+import "@/app/Css/loginPage.css";
 const inter = Inter({ subsets: ["latin"] });
 import { ApplicationProvider } from "./context/applicationContext";
 export const metadata: Metadata = {
@@ -15,9 +15,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // style={{ backgroundColor: "#F5F7F8" }}
   return (
     <html lang="en">
-      <body className={inter.className} style={{ backgroundColor: "#F5F7F8" }}>
+      <body className={inter.className}>
         <ApplicationProvider> {children}</ApplicationProvider>
       </body>
     </html>

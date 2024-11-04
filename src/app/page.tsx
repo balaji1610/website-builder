@@ -1,10 +1,10 @@
 "use client";
-import SelectTemplate from "./selectTemplate";
 
+import Login from "./components/login";
 export default function Home() {
   return (
     <>
-      <SelectTemplate />
+      <Login />
     </>
   );
 }
