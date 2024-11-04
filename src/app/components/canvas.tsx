@@ -279,27 +279,46 @@ export default function canvasPage() {
           <path d="M2.5 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m1 .5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
           <path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm13 2v2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1M2 14a1 1 0 0 1-1-1V6h14v7a1 1 0 0 1-1 1z"/>
         </svg>`,
-      content: `<div style="margin-top:25px">
-          <div>
-          <img src="https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/hero/5/background.png" alt="hero" height="350px" width="100%" style="position:relative;object-fit:cover" />
-          </div>
-          <div style="position:absolute;top:15%;left:10%">
-          <div class="container-fluid">
-          <div class="col-md-12 col-sm-12">
-          <div class="row">
-          <div class="col-md-2 col-sm-2"> </div>
-          <div class="col-md-8 col-sm-8"> 
-           <div style="color:#fff;margin-bottom:40px;font-weight:bold;text-align: center"><h1>Find the best office accessories in one tap</h1></div></div>
-          <div class="col-md-2 col-sm-2"> </div>
-           </div>
-        
-          </div>
-          <div class="col-md-12 col-sm-12">
-          <div data-gjs-type="bootstrap-button" style="margin-left:350px"></div>
-          </div>
-          </div>
-          </div>
-          </div>`,
+      content: `<div
+      style="
+        position: relative;
+        background-image: url(https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/hero/5/background.png);
+        background-size: cover;
+        background-position: center;
+        height: 66vh;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 2rem 0 2rem 0;
+      "
+    >
+      <div
+        style="
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          text-align: center;
+          padding: 20px;
+        "
+      >
+        <div>
+          <h1>
+            Find the best office <br />
+            accessories in one tap
+          </h1>
+        </div>
+        <div data-gjs-type="bootstrap-button" style="margin-top: 1rem"></div>
+      </div>
+    </div>`,
     });
     editor.Components.addType("bootstrap-button", {
       model: {
