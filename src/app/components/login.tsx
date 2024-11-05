@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-
+import { useRouter } from "next/navigation";
 import { Box, Stack } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
@@ -13,11 +13,28 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useApplicationContext } from "@/app/context/applicationContext";
 
 export default function Login() {
+  const router = useRouter();
+  const { setCrendential, login } = useApplicationContext();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleOnchange = (event: any) => {
+    const { name, value } = event.target;
+    setCrendential((prev: any) => {
+      return { ...prev, [name]: value };
+    });
+  };
+
+  const clickLogin = () => {
+    login();
+  };
+
   return (
     <Box>
       <Stack
@@ -48,6 +65,8 @@ export default function Login() {
                 required
                 label="Email Address"
                 sx={{ width: "16rem" }}
+                name="username"
+                onChange={(event) => handleOnchange(event)}
               />
             </Box>
             <Box>
@@ -63,11 +82,15 @@ export default function Login() {
                     </InputAdornment>
                   }
                   label="Password"
+                  name="password"
+                  onChange={(event) => handleOnchange(event)}
                 />
               </FormControl>
             </Box>
             <Box>
-              <Button variant="contained">LOGIN</Button>
+              <Button variant="contained" onClick={clickLogin}>
+                LOGIN
+              </Button>
             </Box>
             <Box>
               <Typography
@@ -89,6 +112,7 @@ export default function Login() {
           </Stack>
         </Box>
       </Stack>
+      <ToastContainer position="top-right" autoClose={2000} />
     </Box>
   );
 }

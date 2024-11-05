@@ -7,12 +7,19 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { authlogin } from "@/app/services/api";
+import { useRouter } from "next/navigation";
 
 interface ApplicationContextType {
   currentTemplate: any;
   setCurrentTemplate: Dispatch<SetStateAction<any>>;
   block: any;
   setblock: Dispatch<SetStateAction<any>>;
+  crendential: any;
+  setCrendential: Dispatch<SetStateAction<any>>;
+  login: () => void;
 }
 
 const ApplicationContext = createContext<ApplicationContextType | undefined>(
@@ -24,9 +31,26 @@ interface ContextProps {
 }
 
 const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
+  const router = useRouter();
   const [currentTemplate, setCurrentTemplate] = useState<any>([]);
   const [block, setblock] = useState<any>([]);
-
+  const [crendential, setCrendential] = useState<any>({
+    username: "",
+    password: "",
+  });
+  const login = async () => {
+    try {
+      const response = await authlogin(crendential);
+      if (response.status == 200) {
+        toast.success(response.data.message);
+        router.push("./selectTemplate");
+        return response.data;
+      }
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      console.error(error);
+    }
+  };
   return (
     <ApplicationContext.Provider
       value={{
@@ -34,6 +58,9 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         setCurrentTemplate,
         block,
         setblock,
+        crendential,
+        setCrendential,
+        login,
       }}
     >
       {children}
