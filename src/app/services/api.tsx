@@ -6,6 +6,8 @@ const UPdateAPI_URL = "http://localhost:5001/updateTemplate";
 
 const LOGINAPI_URL = "http://localhost:5001/auth/login";
 
+const VERFIYTOKEN_API_URL = "http://localhost:5001/protected";
+
 export const getItems = async () => {
   const response = await axios.get(API_URL);
   return response;
@@ -18,5 +20,12 @@ export const updateItem = async (id: any, item: any) => {
 
 export const authlogin = async (item: any) => {
   const response = await axios.post(`${LOGINAPI_URL}`, item);
+  return response;
+};
+
+export const verfiyToken = async (token: any) => {
+  const response = await axios.get(VERFIYTOKEN_API_URL, {
+    headers: token,
+  });
   return response;
 };

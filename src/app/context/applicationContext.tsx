@@ -20,6 +20,8 @@ interface ApplicationContextType {
   crendential: any;
   setCrendential: Dispatch<SetStateAction<any>>;
   login: () => void;
+  currentUserName: string;
+  setCurrentUserName: Dispatch<SetStateAction<string>>;
 }
 
 const ApplicationContext = createContext<ApplicationContextType | undefined>(
@@ -38,11 +40,14 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
     username: "",
     password: "",
   });
+
+  const [currentUserName, setCurrentUserName] = useState<string>("");
   const login = async () => {
     try {
       const response = await authlogin(crendential);
       if (response.status == 200) {
         toast.success(response.data.message);
+        localStorage.setItem("token", response.data.token);
         router.push("./selectTemplate");
         return response.data;
       }
@@ -61,6 +66,8 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         crendential,
         setCrendential,
         login,
+        currentUserName,
+        setCurrentUserName,
       }}
     >
       {children}

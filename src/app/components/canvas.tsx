@@ -12,6 +12,7 @@ import { useApplicationContext } from "../context/applicationContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { updateItem } from "../services/api";
+import Logout from "./logout";
 
 export default function canvasPage() {
   const { currentTemplate, block } = useApplicationContext();
@@ -586,6 +587,7 @@ export default function canvasPage() {
 
   return (
     <div>
+      <Logout />
       <div id="gjs"></div>
       <ToastContainer position="bottom-right" autoClose={2000} />
     </div>

@@ -11,6 +11,9 @@
 .gjs-pn-options {
   top: -5px !important;
 }
+.gjs-pn-views-container {
+  padding: 42px 0 45px 0 !important;
+}
 html {
   overflow: hidden !important;
 }
