@@ -8,8 +8,8 @@ const LOGINAPI_URL = "http://localhost:5001/auth/login";
 
 const VERFIYTOKEN_API_URL = "http://localhost:5001/protected";
 
-export const getItems = async () => {
-  const response = await axios.get(API_URL);
+export const getItems = async (userId: any) => {
+  const response = await axios.get(`${API_URL}/${userId}`);
   return response;
 };
 

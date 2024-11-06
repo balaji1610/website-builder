@@ -19,8 +19,11 @@ export default function selectTemplate() {
     setCurrentTemplate,
     block,
     setblock,
-    currentTemplate,
+
     setCurrentUserName,
+    serCurrentUserId,
+
+    setUser,
   } = useApplicationContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -67,21 +70,24 @@ export default function selectTemplate() {
 
       if (response.statusText == "OK") {
         setCurrentUserName(response.data.user.username);
-        fetchItems();
+        serCurrentUserId(response.data.user.id);
+        fetchItems(response.data.user.id);
       }
     } catch (error) {
       console.log(error);
     }
   };
-  const fetchItems = async () => {
+  const fetchItems = async (userID: string) => {
     try {
-      const response = await getItems();
+      const response = await getItems(userID);
+
       if (response.statusText == "OK") {
         setIsLoading(false);
         const getTemplate = response.data.map((el: any) => {
-          return el;
+          return el.templates;
         });
         setblock(getTemplate);
+        setUser(response.data);
       }
     } catch (error) {
       console.log(error);
@@ -116,7 +122,7 @@ export default function selectTemplate() {
           ) : (
             <>
               {" "}
-              {block.map((el: any) => {
+              {block.flat().map((el: any) => {
                 return (
                   <div
                     style={{

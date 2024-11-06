@@ -15,15 +15,22 @@ import { updateItem } from "../services/api";
 import Logout from "./logout";
 
 export default function canvasPage() {
-  const { currentTemplate, block } = useApplicationContext();
+  const { currentTemplate, user, currsentUserId } = useApplicationContext();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const savePage = async (template: string) => {
-    const saveTemplate = { ...currentTemplate, ["template"]: template };
+    const saveTemplate = user.map((el: any) => {
+      const prepareTemplate = el.templates.flat().map((item: any) => {
+        return item._id == currentTemplate._id
+          ? { ...item, ["template"]: template }
+          : item;
+      });
+      return { ...el, templates: prepareTemplate };
+    });
 
     try {
-      const response = await updateItem(currentTemplate._id, saveTemplate);
+      const response = await updateItem(currsentUserId, saveTemplate[0]);
       if (response.statusText == "OK") {
         toast.success("Save Successfully !");
         return response.data;

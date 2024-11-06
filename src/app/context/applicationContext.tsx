@@ -22,6 +22,10 @@ interface ApplicationContextType {
   login: () => void;
   currentUserName: string;
   setCurrentUserName: Dispatch<SetStateAction<string>>;
+  currsentUserId: string;
+  serCurrentUserId: Dispatch<SetStateAction<string>>;
+  user: any;
+  setUser: Dispatch<SetStateAction<any>>;
 }
 
 const ApplicationContext = createContext<ApplicationContextType | undefined>(
@@ -42,6 +46,8 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
   });
 
   const [currentUserName, setCurrentUserName] = useState<string>("");
+  const [currsentUserId, serCurrentUserId] = useState<string>("");
+  const [user, setUser] = useState<any>([]);
   const login = async () => {
     try {
       const response = await authlogin(crendential);
@@ -68,6 +74,10 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         login,
         currentUserName,
         setCurrentUserName,
+        currsentUserId,
+        serCurrentUserId,
+        user,
+        setUser,
       }}
     >
       {children}
