@@ -18,7 +18,7 @@ html {
   overflow: hidden !important;
 }
 #gjs {
-  height: 38rem !important;
+  height: 94vh !important;
   overflow: scroll;
   overflow-x: hidden;
 }

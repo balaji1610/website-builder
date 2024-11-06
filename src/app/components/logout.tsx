@@ -34,15 +34,12 @@ export default function logout() {
   };
   return (
     <>
-      {/* <Button variant="contained" color="error" onClick={handleLogout}>
-        Logout
-      </Button> */}
       <Box
         sx={{
-          border: "1px solid gray",
+          borderBottom: "1px solid gray",
           width: "100%",
           height: "3rem",
-          backgroundColor: "#00BCD4",
+          backgroundColor: "#444444",
           color: "#fff",
           fontWeight: "bold",
         }}
@@ -65,7 +62,7 @@ export default function logout() {
                   aria-expanded={open ? "true" : undefined}
                   onClick={handleClick}
                 >
-                  <KeyboardArrowUpIcon />
+                  <KeyboardArrowUpIcon sx={{ color: "gray" }} />
                 </Button>
                 <Menu
                   id="basic-menu"
