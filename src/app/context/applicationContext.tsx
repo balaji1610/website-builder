@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { authlogin } from "@/app/services/api";
+import { authlogin, createAccount } from "@/app/services/api";
 import { useRouter } from "next/navigation";
 
 interface ApplicationContextType {
@@ -20,12 +20,15 @@ interface ApplicationContextType {
   crendential: any;
   setCrendential: Dispatch<SetStateAction<any>>;
   login: () => void;
+  prepareCreateaAccount: () => void;
   currentUserName: string;
   setCurrentUserName: Dispatch<SetStateAction<string>>;
   currsentUserId: string;
   serCurrentUserId: Dispatch<SetStateAction<string>>;
   user: any;
   setUser: Dispatch<SetStateAction<any>>;
+  newUserCrendential: any;
+  setnewUserCrendential: Dispatch<SetStateAction<any>>;
 }
 
 const ApplicationContext = createContext<ApplicationContextType | undefined>(
@@ -45,9 +48,15 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
     password: "",
   });
 
+  const [newUserCrendential, setnewUserCrendential] = useState<any>({
+    username: "",
+    password: "",
+  });
+
   const [currentUserName, setCurrentUserName] = useState<string>("");
   const [currsentUserId, serCurrentUserId] = useState<string>("");
   const [user, setUser] = useState<any>([]);
+
   const login = async () => {
     try {
       const response = await authlogin(crendential);
@@ -58,6 +67,23 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         });
         localStorage.setItem("token", response.data.token);
         router.push("./selectTemplate");
+        return response.data;
+      }
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      console.error(error);
+    }
+  };
+
+  const prepareCreateaAccount = async () => {
+    try {
+      const response = await createAccount(newUserCrendential);
+      if (response.status == 200) {
+        toast.success("Created  a New Account SuccessFully");
+        setnewUserCrendential((prev: any) => {
+          return { ...prev, username: "", password: "" };
+        });
+        router.push("./");
         return response.data;
       }
     } catch (error: any) {
@@ -81,6 +107,9 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         serCurrentUserId,
         user,
         setUser,
+        newUserCrendential,
+        setnewUserCrendential,
+        prepareCreateaAccount,
       }}
     >
       {children}

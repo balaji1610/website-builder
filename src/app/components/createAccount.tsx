@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Box, Stack } from "@mui/material";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -16,25 +15,25 @@ import Typography from "@mui/material/Typography";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useApplicationContext } from "@/app/context/applicationContext";
+import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
 
-export default function Login() {
+export default function CreateAccount() {
   const router = useRouter();
-  const { setCrendential, login, crendential } = useApplicationContext();
   const [showPassword, setShowPassword] = useState(false);
-
+  const { setnewUserCrendential, newUserCrendential, prepareCreateaAccount } =
+    useApplicationContext();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleOnchange = (event: any) => {
     const { name, value } = event.target;
-    setCrendential((prev: any) => {
+    setnewUserCrendential((prev: any) => {
       return { ...prev, [name]: value };
     });
   };
 
-  const clickLogin = () => {
-    login();
+  const clickSignUp = () => {
+    prepareCreateaAccount();
   };
-
   return (
     <Box>
       <Stack
@@ -58,7 +57,10 @@ export default function Login() {
             alignItems="center"
           >
             <Box>
-              <AccountCircleIcon color="primary" fontSize="large" />
+              <PersonAddAltRoundedIcon color="primary" fontSize="large" />
+            </Box>
+            <Box>
+              <Typography variant="subtitle1">Create a new account</Typography>
             </Box>
             <Box>
               <TextField
@@ -91,30 +93,23 @@ export default function Login() {
               <Button
                 variant="contained"
                 disabled={
-                  crendential.username.length < 2 ||
-                  crendential.password.length < 2
+                  newUserCrendential.username.length < 2 ||
+                  newUserCrendential.password.length < 2
                 }
-                onClick={clickLogin}
+                onClick={clickSignUp}
               >
-                LOGIN
+                SIGN UP
               </Button>
             </Box>
             <Box>
+              Already have an account ?
               <Typography
                 variant="subtitle1"
                 color="primary"
-                sx={{ textAlign: "center" }}
+                sx={{ textAlign: "center", cursor: "pointer" }}
+                onClick={() => router.push("./")}
               >
-                Reset password?
-              </Typography>
-              Don't have an account yet ?
-              <Typography
-                variant="subtitle1"
-                color="primary"
-                sx={{ display: "inline-block", cursor: "pointer" }}
-                onClick={() => router.push("./createaccount")}
-              >
-                &nbsp;Create account
+                Login
               </Typography>
             </Box>
           </Stack>
