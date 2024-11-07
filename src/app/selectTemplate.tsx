@@ -19,10 +19,8 @@ export default function selectTemplate() {
     setCurrentTemplate,
     block,
     setblock,
-
     setCurrentUserName,
     serCurrentUserId,
-
     setUser,
   } = useApplicationContext();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -58,7 +56,6 @@ export default function selectTemplate() {
       toast.error("Invalid Route");
       router.push("/");
     }
-
     protectedRoute();
   }, []);
 

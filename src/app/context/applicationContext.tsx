@@ -53,6 +53,9 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
       const response = await authlogin(crendential);
       if (response.status == 200) {
         toast.success(response.data.message);
+        setCrendential((prev: any) => {
+          return { ...prev, username: "", password: "" };
+        });
         localStorage.setItem("token", response.data.token);
         router.push("./selectTemplate");
         return response.data;

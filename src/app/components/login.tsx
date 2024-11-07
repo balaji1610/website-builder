@@ -19,7 +19,7 @@ import { useApplicationContext } from "@/app/context/applicationContext";
 
 export default function Login() {
   const router = useRouter();
-  const { setCrendential, login } = useApplicationContext();
+  const { setCrendential, login, crendential } = useApplicationContext();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -88,7 +88,14 @@ export default function Login() {
               </FormControl>
             </Box>
             <Box>
-              <Button variant="contained" onClick={clickLogin}>
+              <Button
+                variant="contained"
+                disabled={
+                  crendential.username.length < 2 ||
+                  crendential.password.length < 2
+                }
+                onClick={clickLogin}
+              >
                 LOGIN
               </Button>
             </Box>
