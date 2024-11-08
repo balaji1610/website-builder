@@ -65,7 +65,9 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
   const [currentUserName, setCurrentUserName] = useState<string>("");
   const [currsentUserId, serCurrentUserId] = useState<string>("");
   const [user, setUser] = useState<any>([]);
-  const [resetUserID, setResetUserID] = useState<any>();
+  const [resetUserID, setResetUserID] = useState<any>({
+    _id: null,
+  });
 
   const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
@@ -111,7 +113,9 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
     try {
       const response = await resetPasswordRequest(resetUsername);
       if (response.status == 200) {
-        setResetUserID(response.data);
+        setResetUserID((prev: any) => {
+          return { ...prev, _id: response.data._id };
+        });
         toast.success("Successfully find your account !");
         await delay(2000);
         router.push("./updatepassword");
@@ -127,9 +131,12 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
       const response = await updatePasswordRequest(userUpdatePassword);
       if (response.status == 200) {
         toast.success(response.data.message);
+        setResetUserID((prev: any) => {
+          return { ...prev, _id: null };
+        });
         await delay(2000);
         router.push("./");
-        return response.data;
+        return response.data.message;
       }
     } catch (error: any) {
       toast.error(error.response.data.message);

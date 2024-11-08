@@ -19,8 +19,7 @@ import { useApplicationContext } from "@/app/context/applicationContext";
 
 export default function Login() {
   const router = useRouter();
-  const { setCrendential, login, crendential, resetUserID } =
-    useApplicationContext();
+  const { setCrendential, login, crendential } = useApplicationContext();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -38,7 +37,6 @@ export default function Login() {
 
   return (
     <Box>
-      {JSON.stringify(resetUserID)}
       <Stack
         direction="column"
         spacing={1}
