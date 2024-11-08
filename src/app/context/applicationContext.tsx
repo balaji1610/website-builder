@@ -9,7 +9,11 @@ import React, {
 } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { authlogin, createAccount } from "@/app/services/api";
+import {
+  authlogin,
+  createAccount,
+  resetPasswordRequest,
+} from "@/app/services/api";
 import { useRouter } from "next/navigation";
 
 interface ApplicationContextType {
@@ -21,6 +25,7 @@ interface ApplicationContextType {
   setCrendential: Dispatch<SetStateAction<any>>;
   login: () => void;
   prepareCreateaAccount: () => void;
+  resetPassword: (resetUsername: any) => void;
   currentUserName: string;
   setCurrentUserName: Dispatch<SetStateAction<string>>;
   currsentUserId: string;
@@ -29,6 +34,8 @@ interface ApplicationContextType {
   setUser: Dispatch<SetStateAction<any>>;
   newUserCrendential: any;
   setnewUserCrendential: Dispatch<SetStateAction<any>>;
+  resetUserID: any;
+  setResetUserID: Dispatch<SetStateAction<any>>;
 }
 
 const ApplicationContext = createContext<ApplicationContextType | undefined>(
@@ -56,6 +63,10 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
   const [currentUserName, setCurrentUserName] = useState<string>("");
   const [currsentUserId, serCurrentUserId] = useState<string>("");
   const [user, setUser] = useState<any>([]);
+  const [resetUserID, setResetUserID] = useState<any>();
+
+  const delay = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
 
   const login = async () => {
     try {
@@ -66,6 +77,7 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
           return { ...prev, username: "", password: "" };
         });
         localStorage.setItem("token", response.data.token);
+        await delay(2000);
         router.push("./selectTemplate");
         return response.data;
       }
@@ -79,10 +91,11 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
     try {
       const response = await createAccount(newUserCrendential);
       if (response.status == 200) {
-        toast.success("Created  a New Account SuccessFully");
+        toast.success("Account created successfully!");
         setnewUserCrendential((prev: any) => {
           return { ...prev, username: "", password: "" };
         });
+        await delay(2000);
         router.push("./");
         return response.data;
       }
@@ -91,6 +104,22 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
       console.error(error);
     }
   };
+
+  const resetPassword = async (resetUsername: any) => {
+    try {
+      const response = await resetPasswordRequest(resetUsername);
+      if (response.status == 200) {
+        setResetUserID(response.data);
+        toast.success("Successfully find your account !");
+        await delay(2000);
+        router.push("./updatepassword");
+        return response.data;
+      }
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <ApplicationContext.Provider
       value={{
@@ -110,6 +139,9 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         newUserCrendential,
         setnewUserCrendential,
         prepareCreateaAccount,
+        resetPassword,
+        resetUserID,
+        setResetUserID,
       }}
     >
       {children}
