@@ -103,7 +103,8 @@ export default function Login() {
               <Typography
                 variant="subtitle1"
                 color="primary"
-                sx={{ textAlign: "center" }}
+                sx={{ textAlign: "center", cursor: "pointer" }}
+                onClick={() => router.push("./resetpassword")}
               >
                 Reset password?
               </Typography>

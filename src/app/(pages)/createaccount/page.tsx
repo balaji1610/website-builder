@@ -1,5 +1,4 @@
-import CreateAccount from "../components/createAccount";
-
+import CreateAccount from "@/app/components/createAccount";
 export default function CreateAccountPage() {
   return (
     <>
