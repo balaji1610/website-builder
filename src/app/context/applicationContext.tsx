@@ -13,6 +13,7 @@ import {
   authlogin,
   createAccount,
   resetPasswordRequest,
+  updatePasswordRequest,
 } from "@/app/services/api";
 import { useRouter } from "next/navigation";
 
@@ -26,6 +27,7 @@ interface ApplicationContextType {
   login: () => void;
   prepareCreateaAccount: () => void;
   resetPassword: (resetUsername: any) => void;
+  updateNewPassword: (userUpdatePassword: any) => void;
   currentUserName: string;
   setCurrentUserName: Dispatch<SetStateAction<string>>;
   currsentUserId: string;
@@ -120,6 +122,20 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
     }
   };
 
+  const updateNewPassword = async (userUpdatePassword: any) => {
+    try {
+      const response = await updatePasswordRequest(userUpdatePassword);
+      if (response.status == 200) {
+        toast.success(response.data.message);
+        await delay(2000);
+        router.push("./");
+        return response.data;
+      }
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+    }
+  };
+
   return (
     <ApplicationContext.Provider
       value={{
@@ -142,6 +158,7 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         resetPassword,
         resetUserID,
         setResetUserID,
+        updateNewPassword,
       }}
     >
       {children}

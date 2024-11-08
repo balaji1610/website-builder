@@ -74,6 +74,7 @@ export default function ResetPassword() {
                 size="large"
                 sx={{ width: "14rem" }}
                 onClick={handleClickResetPassword}
+                disabled={resetUsername.username.length < 2}
               >
                 Reset Password
               </Button>
