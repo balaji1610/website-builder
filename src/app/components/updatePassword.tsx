@@ -34,6 +34,7 @@ export default function UpdatePassword() {
     } else {
       setIsValidID(true);
     }
+    /* eslint-disable */
   }, []);
   const [updatePassword, setUpdatePassword] = useState({
     password: null,

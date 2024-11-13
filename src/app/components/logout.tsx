@@ -10,7 +10,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useApplicationContext } from "../context/applicationContext";
-export default function logout() {
+export default function Logout() {
   const { currentUserName } = useApplicationContext();
 
   const avatarName = currentUserName.split("@")[0];

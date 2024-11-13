@@ -7,14 +7,14 @@ import "bootstrap/dist/js/bootstrap.bundle.js";
 import Button from "@mui/material/Button";
 import { toast, ToastContainer } from "react-toastify";
 
-import Architect from "../../public/blocks-image/Architect.png";
-import Myblog from "../../public/blocks-image/Mybolg.png";
-import NoImage from "../../public/blocks-image/No-image.png";
+import Architect from "../../../public/blocks-image/Architect.png";
+import Myblog from "../../../public/blocks-image/Mybolg.png";
+import NoImage from "../../../public/blocks-image/No-image.png";
 import Logout from "@/app/components/logout";
-import { useApplicationContext } from "./context/applicationContext";
-import { getItems, verfiyToken } from "./services/api";
+import { useApplicationContext } from "@/app/context/applicationContext";
+import { getItems, verfiyToken } from "@/app/services/api";
 
-export default function selectTemplate() {
+export default function SelectTemplate() {
   const {
     setCurrentTemplate,
     block,
@@ -57,6 +57,8 @@ export default function selectTemplate() {
       router.push("/");
     }
     protectedRoute();
+
+    /* eslint-disable */
   }, []);
 
   const protectedRoute = async () => {
@@ -119,7 +121,7 @@ export default function selectTemplate() {
           ) : (
             <>
               {" "}
-              {block.flat().map((el: any) => {
+              {block.flat().map((el: any, index: number) => {
                 return (
                   <div
                     style={{
@@ -130,6 +132,7 @@ export default function selectTemplate() {
                       margin: "25px",
                       backgroundColor: "#fff",
                     }}
+                    key={index}
                     onClick={() => handleOnBlock(el)}
                     title={el.title}
                   >

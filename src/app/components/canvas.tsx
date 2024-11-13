@@ -14,10 +14,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { updateItem } from "../services/api";
 import Logout from "./logout";
 
-export default function canvasPage() {
+export default function Canvas() {
   const { currentTemplate, user, currsentUserId } = useApplicationContext();
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const savePage = async (template: string) => {
     const saveTemplate = user.map((el: any) => {
@@ -105,7 +103,7 @@ export default function canvasPage() {
       },
     });
 
-    editor.setComponents(currentTemplate.template);
+    editor.setComponents(currentTemplate?.template);
     editor.BlockManager.add("bootstrap-Image-Text", {
       label: "Image-Text",
       category: "Basic",
@@ -590,6 +588,7 @@ export default function canvasPage() {
         savePage(htmlContent);
       },
     });
+    /* eslint-disable */
   }, []);
 
   return (

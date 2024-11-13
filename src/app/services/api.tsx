@@ -1,21 +1,18 @@
 import axios from "axios";
 
-const API_URL = "https://grapes-js-backend.onrender.com/getTemplates";
+const API_URL = "http://localhost:5001/getTemplates";
 
-const UPdateAPI_URL = "https://grapes-js-backend.onrender.com/updateTemplate";
+const UPdateAPI_URL = "http://localhost:5001/updateTemplate";
 
-const LOGINAPI_URL = "https://grapes-js-backend.onrender.com/auth/login";
+const LOGINAPI_URL = "http://localhost:5001/auth/login";
 
-const VERFIYTOKEN_API_URL = "https://grapes-js-backend.onrender.com/protected";
+const VERFIYTOKEN_API_URL = "http://localhost:5001/protected";
 
-const CREATE_ACCOUNT_API_URL =
-  "https://grapes-js-backend.onrender.com/createAccount";
+const CREATE_ACCOUNT_API_URL = "http://localhost:5001/createAccount";
 
-const RESET_PASSWORD_API_URL =
-  "https://grapes-js-backend.onrender.com/resetPassword";
+const RESET_PASSWORD_API_URL = "http://localhost:5001/resetPassword";
 
-const UPDATE_PASSWORD_API_URL =
-  "https://grapes-js-backend.onrender.com/updatePassword";
+const UPDATE_PASSWORD_API_URL = "http://localhost:5001/updatePassword";
 
 export const getItems = async (userId: any) => {
   const response = await axios.get(`${API_URL}/${userId}`);

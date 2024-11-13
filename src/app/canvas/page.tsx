@@ -1,7 +1,7 @@
 "use client";
 import Canvas from "../components/canvas";
 
-export default function canvasPage() {
+export default function CanvasPage() {
   return (
     <>
       <Canvas />

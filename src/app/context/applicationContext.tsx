@@ -82,7 +82,7 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         });
         localStorage.setItem("token", response.data.token);
         await delay(2000);
-        router.push("./selectTemplate");
+        router.push("./selecttemplate");
         return response.data;
       }
     } catch (error: any) {

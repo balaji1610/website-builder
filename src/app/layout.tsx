@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import React from "react";
-import "@/app/Css/loginPage.css";
 const inter = Inter({ subsets: ["latin"] });
 import { ApplicationProvider } from "./context/applicationContext";
 export const metadata: Metadata = {

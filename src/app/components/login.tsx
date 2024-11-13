@@ -108,7 +108,7 @@ export default function Login() {
               >
                 Reset password?
               </Typography>
-              Don't have an account yet ?
+              Don&apos;t have an account yet ?
               <Typography
                 variant="subtitle1"
                 color="primary"
