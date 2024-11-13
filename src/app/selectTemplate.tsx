@@ -65,7 +65,7 @@ export default function selectTemplate() {
     try {
       const response = await verfiyToken(header);
 
-      if (response.statusText == "OK") {
+      if (response.status == 200) {
         setCurrentUserName(response.data.user.username);
         serCurrentUserId(response.data.user.id);
         fetchItems(response.data.user.id);
@@ -78,7 +78,7 @@ export default function selectTemplate() {
     try {
       const response = await getItems(userID);
 
-      if (response.statusText == "OK") {
+      if (response.status == 200) {
         setIsLoading(false);
         const getTemplate = response.data.map((el: any) => {
           return el.templates;

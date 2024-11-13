@@ -31,7 +31,7 @@ export default function canvasPage() {
 
     try {
       const response = await updateItem(currsentUserId, saveTemplate[0]);
-      if (response.statusText == "OK") {
+      if (response.status == 200) {
         toast.success("Save Successfully !");
         return response.data;
       }
