@@ -155,7 +155,7 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
       });
 
       if (response.status == 200) {
-        const { _id, title } = currentTemplate;
+        const { title } = currentTemplate;
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
@@ -167,7 +167,7 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         toast.success("Successfully Download File");
       }
     } catch (error: any) {
-      toast.error("Something Working");
+      toast.error("Something went wrong");
       console.log(error);
     }
   };
