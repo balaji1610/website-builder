@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
@@ -12,7 +13,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { useApplicationContext } from "../context/applicationContext";
 export default function Logout() {
   const { currentUserName, downloadfile } = useApplicationContext();
-
+  const [isPublish, setISPublish] = useState<boolean>(false);
+  const pathname = usePathname();
   const avatarName = currentUserName.split("@")[0];
   const avater = currentUserName?.at(0)?.toUpperCase();
   const router = useRouter();
@@ -32,6 +34,12 @@ export default function Logout() {
     localStorage.removeItem("token");
     router.push("/");
   };
+
+  useEffect(() => {
+    if (pathname == "/canvas") {
+      setISPublish(true);
+    }
+  }, [pathname]);
   return (
     <>
       <Box
@@ -56,13 +64,16 @@ export default function Logout() {
               spacing={2}
             >
               <Box>
-                <Button
-                  variant="contained"
-                  color="success"
-                  onClick={() => downloadfile()}
-                >
-                  Publish
-                </Button>
+                {isPublish && (
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() => downloadfile()}
+                    sx={{ mt: "5px" }}
+                  >
+                    Publish
+                  </Button>
+                )}
               </Box>
               <Box>
                 <Avatar>{avater}</Avatar>

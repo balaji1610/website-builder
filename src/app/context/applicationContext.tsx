@@ -164,9 +164,11 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         link.click();
         link.remove();
         window.URL.revokeObjectURL(url);
+        toast.success("Successfully Download File");
       }
     } catch (error: any) {
-      console.error(error);
+      toast.error("Something Working");
+      console.log(error);
     }
   };
 
