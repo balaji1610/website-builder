@@ -11,7 +11,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useApplicationContext } from "../context/applicationContext";
 export default function Logout() {
-  const { currentUserName } = useApplicationContext();
+  const { currentUserName, downloadfile } = useApplicationContext();
 
   const avatarName = currentUserName.split("@")[0];
   const avater = currentUserName?.at(0)?.toUpperCase();
@@ -44,13 +44,27 @@ export default function Logout() {
           fontWeight: "bold",
         }}
       >
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
           <Grid size={4}></Grid>
-          <Grid size={6}></Grid>
-          <Grid size={2}>
-            <Stack direction="row" spacing={2}>
+          <Grid size={4}></Grid>
+          <Grid size={4}>
+            <Stack
+              direction="row"
+              sx={{
+                justifyContent: "flex-end",
+              }}
+              spacing={2}
+            >
               <Box>
-                {" "}
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={() => downloadfile()}
+                >
+                  Publish
+                </Button>
+              </Box>
+              <Box>
                 <Avatar>{avater}</Avatar>
               </Box>
               <Box sx={{ marginTop: "8px !important" }}>{avatarName}</Box>

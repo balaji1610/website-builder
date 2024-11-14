@@ -14,6 +14,7 @@ import {
   createAccount,
   resetPasswordRequest,
   updatePasswordRequest,
+  downlonadHTMLRequest,
 } from "@/app/services/api";
 import { useRouter } from "next/navigation";
 
@@ -25,6 +26,7 @@ interface ApplicationContextType {
   crendential: any;
   setCrendential: Dispatch<SetStateAction<any>>;
   login: () => void;
+  downloadfile: () => void;
   prepareCreateaAccount: () => void;
   resetPassword: (resetUsername: any) => void;
   updateNewPassword: (userUpdatePassword: any) => void;
@@ -143,6 +145,31 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
     }
   };
 
+  const downloadfile = async () => {
+    const { _id } = currentTemplate;
+
+    try {
+      const response = await downlonadHTMLRequest({
+        id: currsentUserId,
+        templateID: _id,
+      });
+
+      if (response.status == 200) {
+        const { _id, title } = currentTemplate;
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${title}.html`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+      }
+    } catch (error: any) {
+      console.error(error);
+    }
+  };
+
   return (
     <ApplicationContext.Provider
       value={{
@@ -166,6 +193,7 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         resetUserID,
         setResetUserID,
         updateNewPassword,
+        downloadfile,
       }}
     >
       {children}
