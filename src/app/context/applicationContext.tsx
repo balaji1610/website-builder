@@ -7,22 +7,23 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
+import { crendentialType } from "@/app/interface/interface";
 
 interface ApplicationContextType {
   currentTemplate: any;
   setCurrentTemplate: Dispatch<SetStateAction<any>>;
   block: any;
   setblock: Dispatch<SetStateAction<any>>;
-  crendential: any;
-  setCrendential: Dispatch<SetStateAction<any>>;
+  crendential: crendentialType;
+  setCrendential: Dispatch<SetStateAction<crendentialType>>;
   currentUserName: string;
   setCurrentUserName: Dispatch<SetStateAction<string>>;
   currsentUserId: string;
   serCurrentUserId: Dispatch<SetStateAction<string>>;
   user: any;
   setUser: Dispatch<SetStateAction<any>>;
-  newUserCrendential: any;
-  setnewUserCrendential: Dispatch<SetStateAction<any>>;
+  newUserCrendential: crendentialType;
+  setnewUserCrendential: Dispatch<SetStateAction<crendentialType>>;
   resetUserID: any;
   setResetUserID: Dispatch<SetStateAction<any>>;
   isLoading: boolean;
@@ -41,19 +42,22 @@ interface ContextProps {
 const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
   const [currentTemplate, setCurrentTemplate] = useState<any>([]);
   const [block, setblock] = useState<any>([]);
-  const [crendential, setCrendential] = useState<any>({
+
+  const [crendential, setCrendential] = useState<crendentialType>({
     username: "",
     password: "",
   });
 
-  const [newUserCrendential, setnewUserCrendential] = useState<any>({
-    username: "",
-    password: "",
-  });
+  const [newUserCrendential, setnewUserCrendential] = useState<crendentialType>(
+    {
+      username: "",
+      password: "",
+    }
+  );
 
   const [currentUserName, setCurrentUserName] = useState<string>("");
   const [currsentUserId, serCurrentUserId] = useState<string>("");
-  
+
   const [user, setUser] = useState<any>([]);
   const [resetUserID, setResetUserID] = useState<any>({
     _id: null,
