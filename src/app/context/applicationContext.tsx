@@ -7,16 +7,6 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import {
-  authlogin,
-  createAccount,
-  resetPasswordRequest,
-  updatePasswordRequest,
-  downlonadHTMLRequest,
-} from "@/app/services/api";
-import { useRouter } from "next/navigation";
 
 interface ApplicationContextType {
   currentTemplate: any;
@@ -25,11 +15,6 @@ interface ApplicationContextType {
   setblock: Dispatch<SetStateAction<any>>;
   crendential: any;
   setCrendential: Dispatch<SetStateAction<any>>;
-  login: () => void;
-  downloadfile: () => void;
-  prepareCreateaAccount: () => void;
-  resetPassword: (resetUsername: any) => void;
-  updateNewPassword: (userUpdatePassword: any) => void;
   currentUserName: string;
   setCurrentUserName: Dispatch<SetStateAction<string>>;
   currsentUserId: string;
@@ -40,6 +25,9 @@ interface ApplicationContextType {
   setnewUserCrendential: Dispatch<SetStateAction<any>>;
   resetUserID: any;
   setResetUserID: Dispatch<SetStateAction<any>>;
+  isLoading: boolean;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+  currentToken: string | null | undefined;
 }
 
 const ApplicationContext = createContext<ApplicationContextType | undefined>(
@@ -51,7 +39,6 @@ interface ContextProps {
 }
 
 const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
-  const router = useRouter();
   const [currentTemplate, setCurrentTemplate] = useState<any>([]);
   const [block, setblock] = useState<any>([]);
   const [crendential, setCrendential] = useState<any>({
@@ -66,111 +53,17 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
 
   const [currentUserName, setCurrentUserName] = useState<string>("");
   const [currsentUserId, serCurrentUserId] = useState<string>("");
+  
   const [user, setUser] = useState<any>([]);
   const [resetUserID, setResetUserID] = useState<any>({
     _id: null,
   });
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const delay = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
-
-  const login = async () => {
-    try {
-      const response = await authlogin(crendential);
-      if (response.status == 200) {
-        toast.success(response.data.message);
-        setCrendential((prev: any) => {
-          return { ...prev, username: "", password: "" };
-        });
-        localStorage.setItem("token", response.data.token);
-        await delay(2000);
-        router.push("./selecttemplate");
-        return response.data;
-      }
-    } catch (error: any) {
-      toast.error(error.response.data.message);
-      console.error(error);
-    }
-  };
-
-  const prepareCreateaAccount = async () => {
-    try {
-      const response = await createAccount(newUserCrendential);
-      if (response.status == 200) {
-        toast.success("Account created successfully!");
-        setnewUserCrendential((prev: any) => {
-          return { ...prev, username: "", password: "" };
-        });
-        await delay(2000);
-        router.push("./");
-        return response.data;
-      }
-    } catch (error: any) {
-      toast.error(error.response.data.message);
-      console.error(error);
-    }
-  };
-
-  const resetPassword = async (resetUsername: any) => {
-    try {
-      const response = await resetPasswordRequest(resetUsername);
-      if (response.status == 200) {
-        setResetUserID((prev: any) => {
-          return { ...prev, _id: response.data._id };
-        });
-        toast.success("Successfully find your account !");
-        await delay(2000);
-        router.push("./updatepassword");
-        return response.data;
-      }
-    } catch (error: any) {
-      toast.error(error.response.data.message);
-    }
-  };
-
-  const updateNewPassword = async (userUpdatePassword: any) => {
-    try {
-      const response = await updatePasswordRequest(userUpdatePassword);
-      if (response.status == 200) {
-        toast.success(response.data.message);
-        setResetUserID((prev: any) => {
-          return { ...prev, _id: null };
-        });
-        await delay(2000);
-        router.push("./");
-        return response.data.message;
-      }
-    } catch (error: any) {
-      toast.error(error.response.data.message);
-    }
-  };
-
-  const downloadfile = async () => {
-    const { _id } = currentTemplate;
-
-    try {
-      const response = await downlonadHTMLRequest({
-        id: currsentUserId,
-        templateID: _id,
-      });
-
-      if (response.status == 200) {
-        const { title } = currentTemplate;
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", `${title}.html`);
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        window.URL.revokeObjectURL(url);
-        toast.success("Successfully Download File");
-      }
-    } catch (error: any) {
-      toast.error("Something went wrong");
-      console.log(error);
-    }
-  };
+  let currentToken: string | null | undefined;
+  if (typeof window !== "undefined") {
+    currentToken = localStorage.getItem("token");
+  }
 
   return (
     <ApplicationContext.Provider
@@ -181,7 +74,6 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         setblock,
         crendential,
         setCrendential,
-        login,
         currentUserName,
         setCurrentUserName,
         currsentUserId,
@@ -190,12 +82,11 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         setUser,
         newUserCrendential,
         setnewUserCrendential,
-        prepareCreateaAccount,
-        resetPassword,
         resetUserID,
         setResetUserID,
-        updateNewPassword,
-        downloadfile,
+        isLoading,
+        setIsLoading,
+        currentToken,
       }}
     >
       {children}

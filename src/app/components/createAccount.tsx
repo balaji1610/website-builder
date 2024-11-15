@@ -16,12 +16,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useApplicationContext } from "@/app/context/applicationContext";
 import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
+import userservice from "@/app/userservice/userservice";
 
 export default function CreateAccount() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const { setnewUserCrendential, newUserCrendential, prepareCreateaAccount } =
-    useApplicationContext();
+  const { setnewUserCrendential, newUserCrendential } = useApplicationContext();
+  const { prepareCreateaAccount } = userservice();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleOnchange = (event: any) => {

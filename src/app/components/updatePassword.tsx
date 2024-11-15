@@ -18,14 +18,15 @@ import FormControl from "@mui/material/FormControl";
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import userservice from "@/app/userservice/userservice";
 
 export default function UpdatePassword() {
   const router = useRouter();
-  const { resetUserID, updateNewPassword } = useApplicationContext();
+  const { resetUserID } = useApplicationContext();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isValidID, setIsValidID] = useState<null | boolean>(null);
-
+  const { updateNewPassword } = userservice();
   useEffect(() => {
     if (!resetUserID._id) {
       setIsValidID(false);

@@ -11,10 +11,11 @@ import Button from "@mui/material/Button";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useApplicationContext } from "@/app/context/applicationContext";
-
+import userservice from "@/app/userservice/userservice";
 export default function ResetPassword() {
   const router = useRouter();
-  const { resetPassword } = useApplicationContext();
+
+  const { resetPassword } = userservice();
   const [resetUsername, setResetUsername] = useState<any>({
     username: "",
   });

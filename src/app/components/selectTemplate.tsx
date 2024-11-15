@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
-import Button from "@mui/material/Button";
 import { toast, ToastContainer } from "react-toastify";
 
 import Architect from "../../../public/blocks-image/Architect.png";
@@ -12,22 +11,16 @@ import Myblog from "../../../public/blocks-image/Mybolg.png";
 import NoImage from "../../../public/blocks-image/No-image.png";
 import Logout from "@/app/components/logout";
 import { useApplicationContext } from "@/app/context/applicationContext";
-import { getItems, verfiyToken } from "@/app/services/api";
+import userservice from "@/app/userservice/userservice";
 
 export default function SelectTemplate() {
-  const {
-    setCurrentTemplate,
-    block,
-    setblock,
-    setCurrentUserName,
-    serCurrentUserId,
-    setUser,
-  } = useApplicationContext();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  const [isTokenValid, setIsTokenValid] = useState<boolean>(false);
   const router = useRouter();
-  const currentToken = localStorage.getItem("token");
+  
+  const { setCurrentTemplate, block, currentToken, isLoading } =
+    useApplicationContext();
+  const { protectedRoute } = userservice();
+  const [isTokenValid, setIsTokenValid] = useState<boolean>(false);
+
   const handleOnBlock = (template: any) => {
     router.push("/canvas");
     setCurrentTemplate(template);
@@ -60,38 +53,6 @@ export default function SelectTemplate() {
 
     /* eslint-disable */
   }, []);
-
-  const protectedRoute = async () => {
-    const header = { Authorization: `Bearer ${currentToken}` };
-
-    try {
-      const response = await verfiyToken(header);
-
-      if (response.status == 200) {
-        setCurrentUserName(response.data.user.username);
-        serCurrentUserId(response.data.user.id);
-        fetchItems(response.data.user.id);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const fetchItems = async (userID: string) => {
-    try {
-      const response = await getItems(userID);
-
-      if (response.status == 200) {
-        setIsLoading(false);
-        const getTemplate = response.data.map((el: any) => {
-          return el.templates;
-        });
-        setblock(getTemplate);
-        setUser(response.data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <div>

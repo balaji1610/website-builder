@@ -11,8 +11,10 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useApplicationContext } from "../context/applicationContext";
+import userservice from "@/app/userservice/userservice";
 export default function Logout() {
-  const { currentUserName, downloadfile } = useApplicationContext();
+  const { currentUserName } = useApplicationContext();
+  const { downloadfile } = userservice();
   const [isPublish, setISPublish] = useState<boolean>(false);
   const pathname = usePathname();
   const avatarName = currentUserName.split("@")[0];

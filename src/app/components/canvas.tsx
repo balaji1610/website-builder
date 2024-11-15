@@ -4,18 +4,18 @@ import grapesjs from "grapesjs";
 import "grapesjs/dist/css/grapes.min.css";
 import "grapesjs/dist/grapes.min.js";
 import plugin from "grapesjs-blocks-basic";
-import ReactDOMServer from "react-dom/server";
 // import "grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css";
 // import "grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.js";
-import thePlugin from "grapesjs-plugin-export";
-import { useApplicationContext } from "../context/applicationContext";
-import { toast, ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { updateItem } from "../services/api";
+
+import { useApplicationContext } from "../context/applicationContext";
 import Logout from "./logout";
+import userservice from "@/app/userservice/userservice";
 
 export default function Canvas() {
-  const { currentTemplate, user, currsentUserId } = useApplicationContext();
+  const { currentTemplate, user } = useApplicationContext();
+  const { updateTemplate } = userservice();
 
   const savePage = async (template: string) => {
     const saveTemplate = user.map((el: any) => {
@@ -26,17 +26,7 @@ export default function Canvas() {
       });
       return { ...el, templates: prepareTemplate };
     });
-
-    try {
-      const response = await updateItem(currsentUserId, saveTemplate[0]);
-      if (response.status == 200) {
-        toast.success("Save Successfully !");
-        return response.data;
-      }
-    } catch (error) {
-      toast.error("Something went wrong");
-      console.log(error);
-    }
+    updateTemplate(saveTemplate[0]);
   };
 
   useEffect(() => {
@@ -45,7 +35,7 @@ export default function Canvas() {
       height: "700px",
       width: "100%",
       storageManager: false,
-      plugins: ["gjs-preset-webpage", plugin, thePlugin],
+      plugins: ["gjs-preset-webpage", plugin],
       deviceManager: {
         devices: [
           {

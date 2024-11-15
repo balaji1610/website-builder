@@ -16,10 +16,12 @@ import Typography from "@mui/material/Typography";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useApplicationContext } from "@/app/context/applicationContext";
-
+import userservice from "@/app/userservice/userservice";
 export default function Login() {
   const router = useRouter();
-  const { setCrendential, login, crendential } = useApplicationContext();
+  const { setCrendential, crendential } = useApplicationContext();
+
+  const { login } = userservice();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
