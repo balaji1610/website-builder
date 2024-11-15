@@ -22,7 +22,7 @@ export default function CreateAccount() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const { setnewUserCrendential, newUserCrendential } = useApplicationContext();
-  const { prepareCreateaAccount } = userservice();
+  const { createAccount } = userservice();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleOnchange = (event: any) => {
@@ -33,7 +33,7 @@ export default function CreateAccount() {
   };
 
   const clickSignUp = () => {
-    prepareCreateaAccount();
+    createAccount();
   };
   return (
     <Box>

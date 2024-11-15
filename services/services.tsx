@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const authlogin = async (item: any) => {
+export const loginRequest = async (item: any) => {
   const response = await axios.post(
     `${process.env.NEXT_PUBLIC_LOGIN_API_ENDPOINT}`,
     item
@@ -8,7 +8,7 @@ export const authlogin = async (item: any) => {
   return response;
 };
 
-export const verfiyToken = async (token: any) => {
+export const protectedRequest = async (token: any) => {
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_PROTECTED_ENDPOINT}`,
     {
@@ -18,14 +18,14 @@ export const verfiyToken = async (token: any) => {
   return response;
 };
 
-export const getItems = async (userId: any) => {
+export const getTemplateRequest = async (userId: any) => {
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_GET_TEMPLATES_ENDPOINT}/${userId}`
   );
   return response;
 };
 
-export const updateItem = async (id: any, item: any) => {
+export const updateTemplateRequest = async (id: any, item: any) => {
   const response = await axios.put(
     `${process.env.NEXT_PUBLIC_UPDATE_TEMPLATE_ENDPOINT}/${id}`,
     item
@@ -33,7 +33,7 @@ export const updateItem = async (id: any, item: any) => {
   return response;
 };
 
-export const downlonadHTMLRequest = async (item: any) => {
+export const downlonadFileRequest = async (item: any) => {
   const response = await axios.post(
     `${process.env.NEXT_PUBLIC_DOWNLOAD_FILE_ENDPOINT}`,
     item
@@ -41,7 +41,7 @@ export const downlonadHTMLRequest = async (item: any) => {
   return response;
 };
 
-export const createAccount = async (item: any) => {
+export const createAccountRequest = async (item: any) => {
   const response = await axios.post(
     `${process.env.NEXT_PUBLIC_CREATE_ACCOUNT_ENDPOINT}`,
     item

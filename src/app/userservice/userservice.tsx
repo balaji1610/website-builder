@@ -1,19 +1,20 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+
 import { useApplicationContext } from "@/app/context/applicationContext";
 import {
-  authlogin,
-  createAccount,
+  loginRequest,
+  createAccountRequest,
   resetPasswordRequest,
   updatePasswordRequest,
-  downlonadHTMLRequest,
-  verfiyToken,
-  getItems,
-  updateItem,
+  downlonadFileRequest,
+  protectedRequest,
+  getTemplateRequest,
+  updateTemplateRequest,
 } from "../../../services/services";
 
-export default function userservice() {
+export default function Userservice() {
   const router = useRouter();
 
   const {
@@ -37,7 +38,7 @@ export default function userservice() {
 
   const login = async () => {
     try {
-      const response = await authlogin(crendential);
+      const response = await loginRequest(crendential);
       if (response.status == 200) {
         toast.success(response.data.message);
         setCrendential((prev: any) => {
@@ -54,9 +55,81 @@ export default function userservice() {
     }
   };
 
-  const prepareCreateaAccount = async () => {
+  const protectedRoute = async () => {
+    const header = { Authorization: `Bearer ${currentToken}` };
+
     try {
-      const response = await createAccount(newUserCrendential);
+      const response = await protectedRequest(header);
+
+      if (response.status == 200) {
+        setCurrentUserName(response.data.user.username);
+        serCurrentUserId(response.data.user.id);
+        getTemplates(response.data.user.id);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getTemplates = async (userID: string) => {
+    try {
+      const response = await getTemplateRequest(userID);
+
+      if (response.status == 200) {
+        setIsLoading(false);
+        const getTemplate = response.data.map((el: any) => {
+          return el.templates;
+        });
+        setblock(getTemplate);
+        setUser(response.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const updateTemplate = async (template: any) => {
+    try {
+      const response = await updateTemplateRequest(currsentUserId, template);
+      if (response.status == 200) {
+        toast.success("Save Successfully !");
+        return response.data;
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.log(error);
+    }
+  };
+
+  const downloadfile = async () => {
+    const { _id } = currentTemplate;
+    try {
+      const response = await downlonadFileRequest({
+        id: currsentUserId,
+        templateID: _id,
+      });
+
+      if (response.status == 200) {
+        const { title } = currentTemplate;
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${title}.html`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+        toast.success("Successfully Download File");
+      }
+    } catch (error: any) {
+      toast.error("Something went wrong");
+      console.log(error);
+    }
+  };
+
+  const createAccount = async () => {
+    try {
+      const response = await createAccountRequest(newUserCrendential);
       if (response.status == 200) {
         toast.success("Account created successfully!");
         setnewUserCrendential((prev: any) => {
@@ -106,80 +179,9 @@ export default function userservice() {
     }
   };
 
-  const downloadfile = async () => {
-    const { _id } = currentTemplate;
-    try {
-      const response = await downlonadHTMLRequest({
-        id: currsentUserId,
-        templateID: _id,
-      });
-
-      if (response.status == 200) {
-        const { title } = currentTemplate;
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", `${title}.html`);
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        window.URL.revokeObjectURL(url);
-        toast.success("Successfully Download File");
-      }
-    } catch (error: any) {
-      toast.error("Something went wrong");
-      console.log(error);
-    }
-  };
-
-  const protectedRoute = async () => {
-    const header = { Authorization: `Bearer ${currentToken}` };
-
-    try {
-      const response = await verfiyToken(header);
-
-      if (response.status == 200) {
-        setCurrentUserName(response.data.user.username);
-        serCurrentUserId(response.data.user.id);
-        fetchItems(response.data.user.id);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const fetchItems = async (userID: string) => {
-    try {
-      const response = await getItems(userID);
-
-      if (response.status == 200) {
-        setIsLoading(false);
-        const getTemplate = response.data.map((el: any) => {
-          return el.templates;
-        });
-        setblock(getTemplate);
-        setUser(response.data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const updateTemplate = async (template: any) => {
-    try {
-      const response = await updateItem(currsentUserId, template);
-      if (response.status == 200) {
-        toast.success("Save Successfully !");
-        return response.data;
-      }
-    } catch (error) {
-      toast.error("Something went wrong");
-      console.log(error);
-    }
-  };
-
   return {
     login,
-    prepareCreateaAccount,
+    createAccount,
     resetPassword,
     updateNewPassword,
     downloadfile,

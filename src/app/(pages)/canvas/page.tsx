@@ -1,5 +1,5 @@
 "use client";
-import Canvas from "../components/canvas";
+import Canvas from "@/app/components/canvas";
 
 export default function CanvasPage() {
   return (
