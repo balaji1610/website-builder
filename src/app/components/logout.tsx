@@ -10,23 +10,30 @@ import Avatar from "@mui/material/Avatar";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+
 import { useApplicationContext } from "../context/applicationContext";
 import userservice from "@/app/userservice/userservice";
+
 export default function Logout() {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const { currentUserName } = useApplicationContext();
   const { downloadfile } = userservice();
+
   const [isPublish, setISPublish] = useState<boolean>(false);
-  const pathname = usePathname();
+
   const avatarName = currentUserName.split("@")[0];
   const avater = currentUserName?.at(0)?.toUpperCase();
-  const router = useRouter();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const open = Boolean(anchorEl);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -42,6 +49,7 @@ export default function Logout() {
       setISPublish(true);
     }
   }, [pathname]);
+
   return (
     <>
       <Box

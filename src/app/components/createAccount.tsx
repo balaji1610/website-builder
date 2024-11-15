@@ -14,20 +14,26 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useApplicationContext } from "@/app/context/applicationContext";
 import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
+
+import { useApplicationContext } from "@/app/context/applicationContext";
 import userservice from "@/app/userservice/userservice";
+import { crendentialType } from "@/app/interface/interface";
 
 export default function CreateAccount() {
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
   const { setnewUserCrendential, newUserCrendential } = useApplicationContext();
   const { createAccount } = userservice();
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleOnchange = (event: any) => {
+  const handleOnchange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = event.target;
-    setnewUserCrendential((prev: any) => {
+    setnewUserCrendential((prev: crendentialType) => {
       return { ...prev, [name]: value };
     });
   };
@@ -35,6 +41,7 @@ export default function CreateAccount() {
   const clickSignUp = () => {
     createAccount();
   };
+
   return (
     <Box>
       <Stack

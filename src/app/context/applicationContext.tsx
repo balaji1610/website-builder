@@ -7,25 +7,30 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import { crendentialType } from "@/app/interface/interface";
+import {
+  crendentialType,
+  userRecordType,
+  templateType,
+  resetUserIDType,
+} from "@/app/interface/interface";
 
 interface ApplicationContextType {
-  currentTemplate: any;
-  setCurrentTemplate: Dispatch<SetStateAction<any>>;
-  block: any;
-  setblock: Dispatch<SetStateAction<any>>;
+  selectedTemplate: templateType | null;
+  setSelectedTemplate: Dispatch<SetStateAction<templateType | null>>;
+  allTemplates: templateType[];
+  setAllTemplates: Dispatch<SetStateAction<templateType[]>>;
   crendential: crendentialType;
   setCrendential: Dispatch<SetStateAction<crendentialType>>;
   currentUserName: string;
   setCurrentUserName: Dispatch<SetStateAction<string>>;
   currsentUserId: string;
   serCurrentUserId: Dispatch<SetStateAction<string>>;
-  user: any;
-  setUser: Dispatch<SetStateAction<any>>;
+  userRecord: userRecordType[];
+  setUserRecord: Dispatch<SetStateAction<userRecordType[]>>;
   newUserCrendential: crendentialType;
   setnewUserCrendential: Dispatch<SetStateAction<crendentialType>>;
-  resetUserID: any;
-  setResetUserID: Dispatch<SetStateAction<any>>;
+  resetUserID: resetUserIDType;
+  setResetUserID: Dispatch<SetStateAction<resetUserIDType>>;
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   currentToken: string | null | undefined;
@@ -40,9 +45,6 @@ interface ContextProps {
 }
 
 const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
-  const [currentTemplate, setCurrentTemplate] = useState<any>([]);
-  const [block, setblock] = useState<any>([]);
-
   const [crendential, setCrendential] = useState<crendentialType>({
     username: "",
     password: "",
@@ -54,17 +56,21 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
       password: "",
     }
   );
-
+  const [selectedTemplate, setSelectedTemplate] = useState<templateType | null>(
+    null
+  );
+  const [allTemplates, setAllTemplates] = useState<templateType[]>([]);
   const [currentUserName, setCurrentUserName] = useState<string>("");
   const [currsentUserId, serCurrentUserId] = useState<string>("");
 
-  const [user, setUser] = useState<any>([]);
-  const [resetUserID, setResetUserID] = useState<any>({
+  const [userRecord, setUserRecord] = useState<userRecordType[]>([]);
+  const [resetUserID, setResetUserID] = useState<resetUserIDType>({
     _id: null,
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   let currentToken: string | null | undefined;
+
   if (typeof window !== "undefined") {
     currentToken = localStorage.getItem("token");
   }
@@ -72,18 +78,18 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
   return (
     <ApplicationContext.Provider
       value={{
-        currentTemplate,
-        setCurrentTemplate,
-        block,
-        setblock,
+        selectedTemplate,
+        setSelectedTemplate,
+        allTemplates,
+        setAllTemplates,
         crendential,
         setCrendential,
         currentUserName,
         setCurrentUserName,
         currsentUserId,
         serCurrentUserId,
-        user,
-        setUser,
+        userRecord,
+        setUserRecord,
         newUserCrendential,
         setnewUserCrendential,
         resetUserID,

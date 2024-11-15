@@ -19,25 +19,18 @@ import FormControl from "@mui/material/FormControl";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import userservice from "@/app/userservice/userservice";
+import { updatePasswordType } from "@/app/interface/interface";
 
 export default function UpdatePassword() {
   const router = useRouter();
   const { resetUserID } = useApplicationContext();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isValidID, setIsValidID] = useState<null | boolean>(null);
   const { updateNewPassword } = userservice();
-  useEffect(() => {
-    if (!resetUserID._id) {
-      setIsValidID(false);
-      toast.error("Invalid Route");
-      router.push("./");
-    } else {
-      setIsValidID(true);
-    }
-    /* eslint-disable */
-  }, []);
-  const [updatePassword, setUpdatePassword] = useState({
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
+  const [isValidID, setIsValidID] = useState<null | boolean>(null);
+  const [updatePassword, setUpdatePassword] = useState<updatePasswordType>({
     password: null,
     confirmpassword: null,
   });
@@ -50,7 +43,9 @@ export default function UpdatePassword() {
     }
   };
 
-  const handleOnChangePassword = (event: any) => {
+  const handleOnChangePassword = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = event.target;
     setUpdatePassword((prev) => {
       return { ...prev, [name]: value };
@@ -61,6 +56,18 @@ export default function UpdatePassword() {
     const userUpdatePassword = { ...resetUserID, ...updatePassword };
     updateNewPassword(userUpdatePassword);
   };
+
+  useEffect(() => {
+    if (!resetUserID._id) {
+      setIsValidID(false);
+      toast.error("Invalid Route");
+      router.push("./");
+    } else {
+      setIsValidID(true);
+    }
+    /* eslint-disable */
+  }, []);
+
   return (
     <>
       {isValidID ? (

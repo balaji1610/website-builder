@@ -12,18 +12,19 @@ import NoImage from "../../../public/blocks-image/No-image.png";
 import Logout from "@/app/components/logout";
 import { useApplicationContext } from "@/app/context/applicationContext";
 import userservice from "@/app/userservice/userservice";
+import { templateType } from "@/app/interface/interface";
 
 export default function SelectTemplate() {
   const router = useRouter();
-  
-  const { setCurrentTemplate, block, currentToken, isLoading } =
+  const { setSelectedTemplate, allTemplates, currentToken, isLoading } =
     useApplicationContext();
   const { protectedRoute } = userservice();
+
   const [isTokenValid, setIsTokenValid] = useState<boolean>(false);
 
-  const handleOnBlock = (template: any) => {
+  const handleOnBlock = (template: templateType) => {
     router.push("/canvas");
-    setCurrentTemplate(template);
+    setSelectedTemplate(template);
   };
 
   const blockImage = (templateName: string) => {
@@ -82,7 +83,7 @@ export default function SelectTemplate() {
           ) : (
             <>
               {" "}
-              {block.flat().map((el: any, index: number) => {
+              {allTemplates.flat().map((el: templateType, index: number) => {
                 return (
                   <div
                     style={{
@@ -98,7 +99,7 @@ export default function SelectTemplate() {
                     title={el.title}
                   >
                     <Image
-                      src={blockImage(el.title) as any}
+                      src={blockImage(el.title)}
                       alt={el.title}
                       style={{
                         width: "16rem",

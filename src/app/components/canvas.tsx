@@ -9,24 +9,24 @@ import plugin from "grapesjs-blocks-basic";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { useApplicationContext } from "../context/applicationContext";
 import Logout from "./logout";
+import { useApplicationContext } from "../context/applicationContext";
 import userservice from "@/app/userservice/userservice";
+import { userRecordType, templateType } from "@/app/interface/interface";
 
 export default function Canvas() {
-  const { currentTemplate, user } = useApplicationContext();
+  const { selectedTemplate, userRecord } = useApplicationContext();
   const { updateTemplate } = userservice();
 
   const savePage = async (template: string) => {
-    const saveTemplate = user.map((el: any) => {
+    const saveTemplate = userRecord.map((el: userRecordType) => {
       const prepareTemplate = el.templates.flat().map((item: any) => {
-        return item._id == currentTemplate._id
-          ? { ...item, ["template"]: template }
-          : item;
+        const { _id } = selectedTemplate as templateType;
+        return item._id == _id ? { ...item, ["template"]: template } : item;
       });
       return { ...el, templates: prepareTemplate };
     });
-    updateTemplate(saveTemplate[0]);
+    updateTemplate(saveTemplate[0] as userRecordType);
   };
 
   useEffect(() => {
@@ -92,8 +92,8 @@ export default function Canvas() {
         ],
       },
     });
-
-    editor.setComponents(currentTemplate?.template);
+    const { template } = selectedTemplate as templateType;
+    editor.setComponents(template);
     editor.BlockManager.add("bootstrap-Image-Text", {
       label: "Image-Text",
       category: "Basic",

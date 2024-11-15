@@ -15,20 +15,25 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import { useApplicationContext } from "@/app/context/applicationContext";
 import userservice from "@/app/userservice/userservice";
+import { crendentialType } from "@/app/interface/interface";
+
 export default function Login() {
   const router = useRouter();
   const { setCrendential, crendential } = useApplicationContext();
-
   const { login } = userservice();
-  const [showPassword, setShowPassword] = useState(false);
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleOnchange = (event: any) => {
+  const handleOnchange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = event.target;
-    setCrendential((prev: any) => {
+    setCrendential((prev: crendentialType) => {
       return { ...prev, [name]: value };
     });
   };

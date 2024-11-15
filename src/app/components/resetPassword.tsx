@@ -10,19 +10,23 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useApplicationContext } from "@/app/context/applicationContext";
+
 import userservice from "@/app/userservice/userservice";
+import { resetUsernameType } from "@/app/interface/interface";
+
 export default function ResetPassword() {
   const router = useRouter();
-
   const { resetPassword } = userservice();
-  const [resetUsername, setResetUsername] = useState<any>({
+
+  const [resetUsername, setResetUsername] = useState<resetUsernameType>({
     username: "",
   });
 
-  const handleOnChangeResetPassword = (event: any) => {
+  const handleOnChangeResetPassword = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = event.target;
-    setResetUsername((prev: any) => {
+    setResetUsername((prev: resetUsernameType) => {
       return { ...prev, [name]: value };
     });
   };

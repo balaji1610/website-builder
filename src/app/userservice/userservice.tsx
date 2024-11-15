@@ -13,6 +13,14 @@ import {
   getTemplateRequest,
   updateTemplateRequest,
 } from "../../../services/services";
+import {
+  crendentialType,
+  templateType,
+  resetUserIDType,
+  userRecordType,
+  resetUsernameType,
+  userUpdatePasswordType,
+} from "@/app/interface/interface";
 
 export default function Userservice() {
   const router = useRouter();
@@ -23,14 +31,14 @@ export default function Userservice() {
     newUserCrendential,
     setnewUserCrendential,
     setResetUserID,
-    currentTemplate,
+    selectedTemplate,
     currsentUserId,
     currentToken,
     setCurrentUserName,
     serCurrentUserId,
     setIsLoading,
-    setblock,
-    setUser,
+    setAllTemplates,
+    setUserRecord,
   } = useApplicationContext();
 
   const delay = (ms: number) =>
@@ -41,7 +49,7 @@ export default function Userservice() {
       const response = await loginRequest(crendential);
       if (response.status == 200) {
         toast.success(response.data.message);
-        setCrendential((prev: any) => {
+        setCrendential((prev: crendentialType) => {
           return { ...prev, username: "", password: "" };
         });
         localStorage.setItem("token", response.data.token);
@@ -77,18 +85,19 @@ export default function Userservice() {
 
       if (response.status == 200) {
         setIsLoading(false);
-        const getTemplate = response.data.map((el: any) => {
+        const getTemplate = response.data.map((el: userRecordType) => {
           return el.templates;
         });
-        setblock(getTemplate);
-        setUser(response.data);
+
+        setAllTemplates(getTemplate);
+        setUserRecord(response.data);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const updateTemplate = async (template: any) => {
+  const updateTemplate = async (template: userRecordType) => {
     try {
       const response = await updateTemplateRequest(currsentUserId, template);
       if (response.status == 200) {
@@ -102,7 +111,7 @@ export default function Userservice() {
   };
 
   const downloadfile = async () => {
-    const { _id } = currentTemplate;
+    const { _id } = selectedTemplate as templateType;
     try {
       const response = await downlonadFileRequest({
         id: currsentUserId,
@@ -110,7 +119,7 @@ export default function Userservice() {
       });
 
       if (response.status == 200) {
-        const { title } = currentTemplate;
+        const { title } = selectedTemplate as templateType;
         const url = window.URL.createObjectURL(new Blob([response.data]));
         const link = document.createElement("a");
         link.href = url;
@@ -132,7 +141,7 @@ export default function Userservice() {
       const response = await createAccountRequest(newUserCrendential);
       if (response.status == 200) {
         toast.success("Account created successfully!");
-        setnewUserCrendential((prev: any) => {
+        setnewUserCrendential((prev: crendentialType) => {
           return { ...prev, username: "", password: "" };
         });
         await delay(2000);
@@ -145,11 +154,11 @@ export default function Userservice() {
     }
   };
 
-  const resetPassword = async (resetUsername: any) => {
+  const resetPassword = async (resetUsername: resetUsernameType) => {
     try {
       const response = await resetPasswordRequest(resetUsername);
       if (response.status == 200) {
-        setResetUserID((prev: any) => {
+        setResetUserID((prev: resetUserIDType) => {
           return { ...prev, _id: response.data._id };
         });
         toast.success("Successfully find your account !");
@@ -162,12 +171,14 @@ export default function Userservice() {
     }
   };
 
-  const updateNewPassword = async (userUpdatePassword: any) => {
+  const updateNewPassword = async (
+    userUpdatePassword: userUpdatePasswordType
+  ) => {
     try {
       const response = await updatePasswordRequest(userUpdatePassword);
       if (response.status == 200) {
         toast.success(response.data.message);
-        setResetUserID((prev: any) => {
+        setResetUserID((prev: resetUserIDType) => {
           return { ...prev, _id: null };
         });
         await delay(2000);
