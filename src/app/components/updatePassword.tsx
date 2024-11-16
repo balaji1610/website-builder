@@ -60,8 +60,10 @@ export default function UpdatePassword() {
   useEffect(() => {
     if (!resetUserID._id) {
       setIsValidID(false);
-      toast.error("Invalid Route");
-      router.push("./");
+      toast.error("Unauthorized Route");
+      setTimeout(() => {
+        router.push("./");
+      }, 2000);
     } else {
       setIsValidID(true);
     }
@@ -169,7 +171,7 @@ export default function UpdatePassword() {
       ) : (
         <>
           {" "}
-          <ToastContainer position="top-right" autoClose={2000} />
+          <ToastContainer position="top-center" autoClose={2000} />
         </>
       )}
     </>

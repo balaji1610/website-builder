@@ -5,6 +5,7 @@ import Image from "next/image";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Architect from "../../../public/blocks-image/Architect.png";
 import Myblog from "../../../public/blocks-image/Mybolg.png";
@@ -16,11 +17,9 @@ import { templateType } from "@/app/interface/interface";
 
 export default function SelectTemplate() {
   const router = useRouter();
-  const { setSelectedTemplate, allTemplates, currentToken, isLoading } =
+  const { setSelectedTemplate, allTemplates, isTokenValid, isLoading } =
     useApplicationContext();
   const { protectedRoute } = userservice();
-
-  const [isTokenValid, setIsTokenValid] = useState<boolean>(false);
 
   const handleOnBlock = (template: templateType) => {
     router.push("/canvas");
@@ -43,22 +42,19 @@ export default function SelectTemplate() {
   };
 
   useEffect(() => {
-    if (currentToken) {
-      setIsTokenValid(true);
-    } else {
-      setIsTokenValid(false);
-      toast.error("Invalid Route");
-      router.push("/");
+    if (!isTokenValid) {
+      toast.error("Unauthorized Route");
+      setTimeout(() => {
+        router.push("./");
+      }, 2000);
     }
     protectedRoute();
-
     /* eslint-disable */
   }, []);
 
   return (
-    <div>
-      <ToastContainer position="top-center" autoClose={2000} />
-      {isTokenValid && (
+    <>
+      {isTokenValid ? (
         <>
           {" "}
           <div>
@@ -124,7 +120,11 @@ export default function SelectTemplate() {
             </>
           )}
         </>
+      ) : (
+        <div>
+          <ToastContainer position="top-center" autoClose={2000} />
+        </div>
       )}
-    </div>
+    </>
   );
 }

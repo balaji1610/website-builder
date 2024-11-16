@@ -3,10 +3,15 @@ import React, {
   createContext,
   useContext,
   useState,
+  useEffect,
   ReactNode,
   Dispatch,
   SetStateAction,
 } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useRouter, usePathname } from "next/navigation";
+
 import {
   crendentialType,
   userRecordType,
@@ -34,6 +39,9 @@ interface ApplicationContextType {
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   currentToken: string | null | undefined;
+  isTokenValid: boolean;
+  setIsTokenValid: Dispatch<SetStateAction<boolean>>;
+
 }
 
 const ApplicationContext = createContext<ApplicationContextType | undefined>(
@@ -45,6 +53,9 @@ interface ContextProps {
 }
 
 const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const [crendential, setCrendential] = useState<crendentialType>({
     username: "",
     password: "",
@@ -68,13 +79,20 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
     _id: null,
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
+  const [isTokenValid, setIsTokenValid] = useState<boolean>(false);
+  const [isValidID, setIsValidID] = useState<boolean | null>(null);
   let currentToken: string | null | undefined;
 
   if (typeof window !== "undefined") {
     currentToken = localStorage.getItem("token");
   }
 
+  useEffect(() => {
+    if (pathname == "/selecttemplate" || "/canvas") {
+      return currentToken ? setIsTokenValid(true) : setIsTokenValid(false);
+    }
+    /* eslint-disable */
+  }, [pathname]);
   return (
     <ApplicationContext.Provider
       value={{
@@ -97,6 +115,8 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         isLoading,
         setIsLoading,
         currentToken,
+        isTokenValid,
+        setIsTokenValid,
       }}
     >
       {children}
