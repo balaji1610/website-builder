@@ -39,6 +39,7 @@ export default function Userservice() {
     setIsLoading,
     setAllTemplates,
     setUserRecord,
+    setResetUsername,
   } = useApplicationContext();
 
   const delay = (ms: number) =>
@@ -180,6 +181,10 @@ export default function Userservice() {
         toast.success(response.data.message);
         setResetUserID((prev: resetUserIDType) => {
           return { ...prev, _id: null };
+        });
+
+        setResetUsername((prev: resetUsernameType) => {
+          return { ...prev, username: null };
         });
         await delay(2000);
         router.push("./");

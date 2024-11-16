@@ -17,6 +17,7 @@ import {
   userRecordType,
   templateType,
   resetUserIDType,
+  resetUsernameType,
 } from "@/app/interface/interface";
 
 interface ApplicationContextType {
@@ -41,7 +42,8 @@ interface ApplicationContextType {
   currentToken: string | null | undefined;
   isTokenValid: boolean;
   setIsTokenValid: Dispatch<SetStateAction<boolean>>;
-
+  resetUsername: resetUsernameType;
+  setResetUsername: Dispatch<SetStateAction<resetUsernameType>>;
 }
 
 const ApplicationContext = createContext<ApplicationContextType | undefined>(
@@ -78,9 +80,13 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
   const [resetUserID, setResetUserID] = useState<resetUserIDType>({
     _id: null,
   });
+  const [resetUsername, setResetUsername] = useState<resetUsernameType>({
+    username: null,
+  });
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isTokenValid, setIsTokenValid] = useState<boolean>(false);
-  const [isValidID, setIsValidID] = useState<boolean | null>(null);
+
   let currentToken: string | null | undefined;
 
   if (typeof window !== "undefined") {
@@ -117,6 +123,8 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         currentToken,
         isTokenValid,
         setIsTokenValid,
+        resetUsername,
+        setResetUsername,
       }}
     >
       {children}

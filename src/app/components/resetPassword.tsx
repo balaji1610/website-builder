@@ -13,14 +13,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 import userservice from "@/app/userservice/userservice";
 import { resetUsernameType } from "@/app/interface/interface";
-
+import { useApplicationContext } from "@/app/context/applicationContext";
 export default function ResetPassword() {
   const router = useRouter();
   const { resetPassword } = userservice();
 
-  const [resetUsername, setResetUsername] = useState<resetUsernameType>({
-    username: "",
-  });
+  const { resetUsername, setResetUsername } = useApplicationContext();
 
   const handleOnChangeResetPassword = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -79,7 +77,6 @@ export default function ResetPassword() {
                 size="large"
                 sx={{ width: "14rem" }}
                 onClick={handleClickResetPassword}
-                disabled={resetUsername.username.length < 2}
               >
                 Reset Password
               </Button>

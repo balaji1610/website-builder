@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { Box, Stack } from "@mui/material";
 import EnhancedEncryptionIcon from "@mui/icons-material/EnhancedEncryption";
 import Typography from "@mui/material/Typography";
-
+import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,7 +23,7 @@ import { updatePasswordType } from "@/app/interface/interface";
 
 export default function UpdatePassword() {
   const router = useRouter();
-  const { resetUserID } = useApplicationContext();
+  const { resetUserID, resetUsername } = useApplicationContext();
   const { updateNewPassword } = userservice();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -79,7 +79,7 @@ export default function UpdatePassword() {
             spacing={1}
             justifyContent="flex-end"
             alignItems="center"
-            height="27rem"
+            height="30rem"
           >
             <Box
               sx={{
@@ -100,6 +100,15 @@ export default function UpdatePassword() {
                 <Box>
                   {" "}
                   <Typography variant="h6">Create New Password</Typography>
+                </Box>
+
+                <Box>
+                  {" "}
+                  <TextField
+                    value={resetUsername.username}
+                    disabled
+                    sx={{ width: "16rem" }}
+                  />
                 </Box>
                 <Box>
                   <FormControl variant="outlined" required>

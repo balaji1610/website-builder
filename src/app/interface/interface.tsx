@@ -22,7 +22,7 @@ export interface resetUserIDType {
 }
 
 export interface resetUsernameType {
-  username: string;
+  username: null | string;
 }
 
 export interface updatePasswordType {
