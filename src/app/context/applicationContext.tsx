@@ -40,8 +40,8 @@ interface ApplicationContextType {
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   currentToken: string | null | undefined;
-  isTokenValid: boolean;
-  setIsTokenValid: Dispatch<SetStateAction<boolean>>;
+  isTokenValid: boolean | null;
+  setIsTokenValid: Dispatch<SetStateAction<boolean | null>>;
   resetUsername: resetUsernameType;
   setResetUsername: Dispatch<SetStateAction<resetUsernameType>>;
 }
@@ -85,7 +85,7 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isTokenValid, setIsTokenValid] = useState<boolean>(false);
+  const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
 
   let currentToken: string | null | undefined;
 
@@ -94,8 +94,12 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
   }
 
   useEffect(() => {
-    if (pathname == "/selecttemplate" || "/canvas") {
-      return currentToken ? setIsTokenValid(true) : setIsTokenValid(false);
+    if (pathname == "/selecttemplate" || pathname == "/canvas") {
+      if (currentToken) {
+        setIsTokenValid(true);
+      } else {
+        setIsTokenValid(false);
+      }
     }
     /* eslint-disable */
   }, [pathname]);

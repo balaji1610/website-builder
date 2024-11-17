@@ -17,8 +17,13 @@ import { templateType } from "@/app/interface/interface";
 
 export default function SelectTemplate() {
   const router = useRouter();
-  const { setSelectedTemplate, allTemplates, isTokenValid, isLoading } =
-    useApplicationContext();
+  const {
+    setSelectedTemplate,
+    allTemplates,
+    isTokenValid,
+    isLoading,
+    setIsTokenValid,
+  } = useApplicationContext();
   const { protectedRoute } = userservice();
 
   const handleOnBlock = (template: templateType) => {
@@ -42,15 +47,16 @@ export default function SelectTemplate() {
   };
 
   useEffect(() => {
-    if (!isTokenValid) {
+    if (isTokenValid == false) {
       toast.error("Unauthorized Route");
+      setIsTokenValid(null);
       setTimeout(() => {
         router.push("./");
       }, 2000);
     }
     protectedRoute();
     /* eslint-disable */
-  }, []);
+  }, [setIsTokenValid, isTokenValid]);
 
   return (
     <>

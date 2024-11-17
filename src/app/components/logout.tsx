@@ -18,7 +18,7 @@ export default function Logout() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { currentUserName } = useApplicationContext();
+  const { currentUserName, setIsTokenValid } = useApplicationContext();
   const { downloadfile } = userservice();
 
   const [isPublish, setISPublish] = useState<boolean>(false);
@@ -41,6 +41,7 @@ export default function Logout() {
   const handleLogout = () => {
     setAnchorEl(null);
     localStorage.removeItem("token");
+    setIsTokenValid(null);
     router.push("/");
   };
 

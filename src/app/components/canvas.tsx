@@ -17,7 +17,7 @@ import { userRecordType, templateType } from "@/app/interface/interface";
 
 export default function Canvas() {
   const router = useRouter();
-  const { selectedTemplate, userRecord, isTokenValid } =
+  const { selectedTemplate, userRecord, isTokenValid, setIsTokenValid } =
     useApplicationContext();
 
   const { updateTemplate } = userservice();
@@ -585,15 +585,16 @@ export default function Canvas() {
           savePage(htmlContent);
         },
       });
-    } else {
+    } else if (isTokenValid == false) {
       toast.error("Unauthorized Route");
+      setIsTokenValid(null);
       setTimeout(() => {
         router.push("./");
       }, 2000);
     }
 
     /* eslint-disable */
-  }, []);
+  }, [setIsTokenValid, isTokenValid]);
 
   return (
     <>
