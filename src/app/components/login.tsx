@@ -11,8 +11,8 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -22,7 +22,8 @@ import { crendentialType } from "@/app/interface/interface";
 
 export default function Login() {
   const router = useRouter();
-  const { setCrendential, crendential } = useApplicationContext();
+  const { setCrendential, crendential, isActionLoading } =
+    useApplicationContext();
   const { login } = userservice();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -95,16 +96,17 @@ export default function Login() {
               </FormControl>
             </Box>
             <Box>
-              <Button
+              <LoadingButton
                 variant="contained"
                 disabled={
                   crendential.username.length < 2 ||
                   crendential.password.length < 2
                 }
                 onClick={clickLogin}
+                loading={isActionLoading}
               >
                 LOGIN
-              </Button>
+              </LoadingButton>
             </Box>
             <Box>
               <Typography

@@ -10,7 +10,7 @@ import React, {
 } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import {
   crendentialType,
@@ -39,6 +39,10 @@ interface ApplicationContextType {
   setResetUserID: Dispatch<SetStateAction<resetUserIDType>>;
   isLoading: boolean;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+  isActionLoading: boolean;
+  setIsActionLoading: Dispatch<SetStateAction<boolean>>;
+  isPublishLoading: boolean;
+  setisPublishLoading: Dispatch<SetStateAction<boolean>>;
   currentToken: string | null | undefined;
   isTokenValid: boolean | null;
   setIsTokenValid: Dispatch<SetStateAction<boolean | null>>;
@@ -55,7 +59,6 @@ interface ContextProps {
 }
 
 const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
-  const router = useRouter();
   const pathname = usePathname();
 
   const [crendential, setCrendential] = useState<crendentialType>({
@@ -85,6 +88,8 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isActionLoading, setIsActionLoading] = useState<boolean>(false);
+  const [isPublishLoading, setisPublishLoading] = useState<boolean>(false);
   const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
 
   let currentToken: string | null | undefined;
@@ -129,6 +134,10 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
         setIsTokenValid,
         resetUsername,
         setResetUsername,
+        isActionLoading,
+        setIsActionLoading,
+        isPublishLoading,
+        setisPublishLoading,
       }}
     >
       {children}

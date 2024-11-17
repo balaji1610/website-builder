@@ -10,6 +10,7 @@ import Avatar from "@mui/material/Avatar";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 import { useApplicationContext } from "../context/applicationContext";
 import userservice from "@/app/userservice/userservice";
@@ -18,7 +19,8 @@ export default function Logout() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { currentUserName, setIsTokenValid } = useApplicationContext();
+  const { currentUserName, setIsTokenValid, isPublishLoading } =
+    useApplicationContext();
   const { downloadfile } = userservice();
 
   const [isPublish, setISPublish] = useState<boolean>(false);
@@ -76,14 +78,17 @@ export default function Logout() {
             >
               <Box>
                 {isPublish && (
-                  <Button
+                  <LoadingButton
                     variant="contained"
-                    color="success"
+                    color={isPublishLoading ? "primary" : "success"}
                     onClick={() => downloadfile()}
-                    sx={{ mt: "5px" }}
+                    sx={{
+                      mt: "5px",
+                    }}
+                    loading={isPublishLoading}
                   >
                     Publish
-                  </Button>
+                  </LoadingButton>
                 )}
               </Box>
               <Box>

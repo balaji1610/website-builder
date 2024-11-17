@@ -17,12 +17,21 @@ import { userRecordType, templateType } from "@/app/interface/interface";
 
 export default function Canvas() {
   const router = useRouter();
-  const { selectedTemplate, userRecord, isTokenValid, setIsTokenValid } =
-    useApplicationContext();
+  const {
+    selectedTemplate,
+    userRecord,
+    isTokenValid,
+    setIsTokenValid,
+    isActionLoading,
+    setIsActionLoading,
+  } = useApplicationContext();
 
   const { updateTemplate } = userservice();
+  const { template } = selectedTemplate as templateType;
 
+  const [afterSaveTemplate, setAfterSaveTemplate] = useState(template);
   const savePage = async (template: string) => {
+    setAfterSaveTemplate(template);
     const saveTemplate = userRecord.map((el: userRecordType) => {
       const prepareTemplate = el.templates.flat().map((item: any) => {
         const { _id } = selectedTemplate as templateType;
@@ -98,8 +107,7 @@ export default function Canvas() {
         },
       });
 
-      const { template } = selectedTemplate as templateType;
-      editor.setComponents(template);
+      editor.setComponents(afterSaveTemplate);
 
       editor.BlockManager.add("bootstrap-Image-Text", {
         label: "Image-Text",
@@ -566,7 +574,9 @@ export default function Canvas() {
       editor.Panels.addButton("options", {
         id: "custom-button",
         command: "save-page",
-        label: `<button style="cursor: pointer">SAVE</button>`,
+        label: isActionLoading
+          ? `<button style="cursor: pointer">Loading....</button>`
+          : `<button style="cursor: pointer">SAVE</button>`,
         attributes: {
           title: "Save",
         },
@@ -594,7 +604,7 @@ export default function Canvas() {
     }
 
     /* eslint-disable */
-  }, [setIsTokenValid, isTokenValid]);
+  }, [setIsTokenValid, isTokenValid, isActionLoading]);
 
   return (
     <>
@@ -603,7 +613,7 @@ export default function Canvas() {
           {" "}
           <Logout />
           <div id="gjs"></div>
-          <ToastContainer position="bottom-right" autoClose={2000} />
+          <ToastContainer position="top-right" autoClose={2000} />
         </>
       ) : (
         <>

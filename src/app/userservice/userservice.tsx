@@ -40,6 +40,8 @@ export default function Userservice() {
     setAllTemplates,
     setUserRecord,
     setResetUsername,
+    setIsActionLoading,
+    setisPublishLoading,
   } = useApplicationContext();
 
   const delay = (ms: number) =>
@@ -47,6 +49,7 @@ export default function Userservice() {
 
   const login = async () => {
     try {
+      setIsActionLoading(true);
       const response = await loginRequest(crendential);
       if (response.status == 200) {
         toast.success(response.data.message);
@@ -55,11 +58,13 @@ export default function Userservice() {
         });
         localStorage.setItem("token", response.data.token);
         await delay(2000);
+        setIsActionLoading(false);
         router.push("./selecttemplate");
         return response.data;
       }
     } catch (error: any) {
       toast.error(error.response.data.message);
+      setIsActionLoading(false);
       console.error(error);
     }
   };
@@ -100,13 +105,17 @@ export default function Userservice() {
 
   const updateTemplate = async (template: userRecordType) => {
     try {
+      setIsActionLoading(true);
       const response = await updateTemplateRequest(currsentUserId, template);
       if (response.status == 200) {
         toast.success("Save Successfully !");
+        getTemplates(currsentUserId);
+        setIsActionLoading(false);
         return response.data;
       }
     } catch (error) {
       toast.error("Something went wrong");
+      setIsActionLoading(false);
       console.log(error);
     }
   };
@@ -114,6 +123,7 @@ export default function Userservice() {
   const downloadfile = async () => {
     const { _id } = selectedTemplate as templateType;
     try {
+      setisPublishLoading(true);
       const response = await downlonadFileRequest({
         id: currsentUserId,
         templateID: _id,
@@ -130,9 +140,11 @@ export default function Userservice() {
         link.remove();
         window.URL.revokeObjectURL(url);
         toast.success("Successfully Download File");
+        setisPublishLoading(false);
       }
     } catch (error: any) {
       toast.error("Something went wrong");
+      setisPublishLoading(false);
       console.log(error);
     }
   };
