@@ -27,9 +27,10 @@ export default function Canvas() {
   } = useApplicationContext();
 
   const { updateTemplate } = userservice();
-  const { template } = selectedTemplate as templateType;
 
-  const [afterSaveTemplate, setAfterSaveTemplate] = useState(template);
+  const [afterSaveTemplate, setAfterSaveTemplate] = useState(
+    selectedTemplate?.template
+  );
   const savePage = async (template: string) => {
     setAfterSaveTemplate(template);
     const saveTemplate = userRecord.map((el: userRecordType) => {
@@ -107,7 +108,7 @@ export default function Canvas() {
         },
       });
 
-      editor.setComponents(afterSaveTemplate);
+      editor.setComponents(afterSaveTemplate??"");
 
       editor.BlockManager.add("bootstrap-Image-Text", {
         label: "Image-Text",
