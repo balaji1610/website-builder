@@ -7,12 +7,14 @@ export interface templateType {
   templateNo: number;
   title: string;
   template: string;
+  lastUpdated: null | string;
   _id: string;
 }
 
 export interface userRecordType {
   username: string;
   password: string;
+  createdAt: string;
   _id: string;
   templates: [templateType];
 }

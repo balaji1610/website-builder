@@ -17,6 +17,7 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "dayjs": "^1.11.13",
     "grapesjs": "^0.21.12",
     "grapesjs-blocks-basic": "^1.0.2",
     "grapesjs-blocks-bootstrap4": "^0.2.3",

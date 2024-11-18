@@ -6,7 +6,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import Architect from "../../../public/blocks-image/Architect.png";
 import Myblog from "../../../public/blocks-image/Mybolg.png";
 import NoImage from "../../../public/blocks-image/No-image.png";
@@ -58,6 +59,13 @@ export default function SelectTemplate() {
     /* eslint-disable */
   }, [setIsTokenValid, isTokenValid]);
 
+  const fromNow = (now: string | null) => {
+    if (now) {
+      dayjs.extend(relativeTime);
+
+      return dayjs().to(dayjs(now));
+    }
+  };
   return (
     <>
       {isTokenValid ? (
@@ -90,6 +98,7 @@ export default function SelectTemplate() {
                   <div
                     style={{
                       width: "16rem",
+                      height: "15rem",
                       border: "1px solid #DFDFDE",
                       cursor: "pointer",
                       display: "inline-block",
@@ -119,6 +128,8 @@ export default function SelectTemplate() {
                       >
                         {el.title}
                       </h6>
+
+                      <h6>{fromNow(el.lastUpdated)}</h6>
                     </div>
                   </div>
                 );

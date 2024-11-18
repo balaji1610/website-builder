@@ -9,7 +9,7 @@ import plugin from "grapesjs-blocks-basic";
 // import "grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.js";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import dayjs from "dayjs";
 import Logout from "./logout";
 import { useApplicationContext } from "../context/applicationContext";
 import userservice from "@/app/userservice/userservice";
@@ -31,12 +31,15 @@ export default function Canvas() {
   const [afterSaveTemplate, setAfterSaveTemplate] = useState(
     selectedTemplate?.template
   );
+  const now = dayjs().format("YYYY-MM-DD HH:mm:ss");
   const savePage = async (template: string) => {
     setAfterSaveTemplate(template);
     const saveTemplate = userRecord.map((el: userRecordType) => {
       const prepareTemplate = el.templates.flat().map((item: any) => {
         const { _id } = selectedTemplate as templateType;
-        return item._id == _id ? { ...item, ["template"]: template } : item;
+        return item._id == _id
+          ? { ...item, ["template"]: template, ["lastUpdated"]: now }
+          : item;
       });
       return { ...el, templates: prepareTemplate };
     });
@@ -108,7 +111,7 @@ export default function Canvas() {
         },
       });
 
-      editor.setComponents(afterSaveTemplate??"");
+      editor.setComponents(afterSaveTemplate ?? "");
 
       editor.BlockManager.add("bootstrap-Image-Text", {
         label: "Image-Text",
