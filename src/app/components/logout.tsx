@@ -11,19 +11,25 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import LoadingButton from "@mui/lab/LoadingButton";
-
+import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
 import { useApplicationContext } from "../context/applicationContext";
 import userservice from "@/app/userservice/userservice";
 
+import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
 export default function Logout() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { currentUserName, setIsTokenValid, isPublishLoading } =
-    useApplicationContext();
+  const {
+    currentUserName,
+    setIsTokenValid,
+    isPublishLoading,
+    selectedTemplate,
+  } = useApplicationContext();
   const { downloadfile } = userservice();
 
-  const [isPublish, setISPublish] = useState<boolean>(false);
+  const [isCanvasPage, setIsCanvasPage] = useState<boolean>(false);
 
   const avatarName = currentUserName.split("@")[0];
   const avater = currentUserName?.at(0)?.toUpperCase();
@@ -49,7 +55,7 @@ export default function Logout() {
 
   useEffect(() => {
     if (pathname == "/canvas") {
-      setISPublish(true);
+      setIsCanvasPage(true);
     }
   }, [pathname]);
 
@@ -66,8 +72,24 @@ export default function Logout() {
         }}
       >
         <Grid container spacing={1}>
-          <Grid size={4}></Grid>
-          <Grid size={4}></Grid>
+          <Grid size={2}>
+            {isCanvasPage && (
+              <Box
+                sx={{ cursor: "pointer", m: "10px 0 10px 10px" }}
+                title="Back"
+                onClick={() => router.push("./selecttemplate")}
+              >
+                <ArrowBackIosNewOutlinedIcon />
+              </Box>
+            )}
+          </Grid>
+          <Grid size={6}>
+            {isCanvasPage && (
+              <Typography variant="h5" align="center" sx={{ mt: "10px" }}>
+                {selectedTemplate?.title}
+              </Typography>
+            )}
+          </Grid>
           <Grid size={4}>
             <Stack
               direction="row"
@@ -77,7 +99,7 @@ export default function Logout() {
               spacing={2}
             >
               <Box>
-                {isPublish && (
+                {isCanvasPage && (
                   <LoadingButton
                     variant="contained"
                     color={isPublishLoading ? "primary" : "success"}
@@ -94,7 +116,9 @@ export default function Logout() {
               <Box>
                 <Avatar>{avater}</Avatar>
               </Box>
-              <Box sx={{ marginTop: "8px !important" }}>{avatarName}</Box>
+              <Box sx={{ marginTop: "8px !important" }}>
+                {avatarName.toUpperCase()}
+              </Box>
               <Box>
                 <Button
                   id="basic-button"
