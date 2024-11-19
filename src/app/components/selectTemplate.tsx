@@ -1,17 +1,23 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.js";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import Architect from "../../../public/blocks-image/Architect.png";
-import Myblog from "../../../public/blocks-image/Mybolg.png";
-import NoImage from "../../../public/blocks-image/No-image.png";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import Stack from "@mui/material/Stack";
+
 import Logout from "@/app/components/logout";
+import Architect from "../../../public/template-images/Architect-Template.png";
+import CV from "../../../public/template-images/CV-Template.png";
+import Gallery from "../../../public/template-images/Gallery-template.png";
+import Marketing from "../../../public/template-images/Marketing-Template.png";
+import Portfolio from "../../../public/template-images/Portfolio-Template.png";
+import NoImage from "../../../public/template-images/No-image.png";
 import { useApplicationContext } from "@/app/context/applicationContext";
 import userservice from "@/app/userservice/userservice";
 import { templateType } from "@/app/interface/interface";
@@ -35,11 +41,20 @@ export default function SelectTemplate() {
   const blockImage = (templateName: string) => {
     let image;
     switch (templateName) {
-      case "Blog Template":
-        image = Myblog;
+      case "CV-Template":
+        image = CV;
         break;
-      case "Architect Template":
+      case "Architect-Template":
         image = Architect;
+        break;
+      case "Gallery-template":
+        image = Gallery;
+        break;
+      case "Marketing-Template":
+        image = Marketing;
+        break;
+      case "Portfolio-Template":
+        image = Portfolio;
         break;
       default:
         image = NoImage;
@@ -70,77 +85,80 @@ export default function SelectTemplate() {
     <>
       {isTokenValid ? (
         <>
-          {" "}
-          <div>
-            <Logout />
-          </div>
-          <div>
-            <h1 style={{ margin: "2rem 0 2rem 2rem" }}>Starter Templates</h1>
-          </div>
+          <Logout />
+          <Box sx={{ m: "1rem 0 2rem 1rem" }}>
+            <Typography variant="h5">Starter Templates</Typography>
+          </Box>
           {isLoading ? (
-            <div
-              style={{
+            <Box
+              sx={{
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "center",
               }}
             >
-              {" "}
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-            </div>
+              <CircularProgress size="30px" />
+            </Box>
           ) : (
-            <>
-              {" "}
+            <Box sx={{ overflowY: "scroll", height: "400px" }}>
               {allTemplates.flat().map((el: templateType, index: number) => {
                 return (
-                  <div
-                    style={{
-                      width: "16rem",
-                      height: "15rem",
+                  <Box
+                    sx={{
+                      m: "20px 20px 10px 20px",
                       border: "1px solid #DFDFDE",
-                      cursor: "pointer",
                       display: "inline-block",
-                      margin: "25px",
-                      backgroundColor: "#fff",
+                      cursor: "pointer",
+                      height: "14rem",
+                      borderRadius: "10px",
                     }}
                     key={index}
                     onClick={() => handleOnBlock(el)}
                     title={el.title}
                   >
-                    <Image
-                      src={blockImage(el.title)}
-                      alt={el.title}
-                      style={{
-                        width: "16rem",
-                        objectFit: "cover",
-                        height: "10rem",
-                      }}
-                    />
-                    <div>
-                      <h6
-                        style={{
-                          textAlign: "center",
-                          color: "gray",
-                          margin: "7px",
-                        }}
-                      >
-                        {el.title}
-                      </h6>
-
-                      <h6>{fromNow(el.lastUpdated)}</h6>
-                    </div>
-                  </div>
+                    <Stack spacing={1}>
+                      <Box>
+                        <Image
+                          src={blockImage(el.title)}
+                          alt="Blog-Template"
+                          width={260}
+                          height={150}
+                          style={{
+                            objectFit: "fill",
+                          }}
+                        />
+                      </Box>
+                      <Box sx={{ borderTop: "1px solid #EBEAFF" }}>
+                        <Typography
+                          variant="subtitle1"
+                          align="center"
+                          color="textSecondary"
+                          sx={{ mt: "5px", fontWeight: "bold" }}
+                        >
+                          {el.title}
+                        </Typography>
+                      </Box>
+                      <Box>
+                        <Typography
+                          variant="subtitle2"
+                          align="right"
+                          color="textDisabled"
+                          sx={{ mr: "4px" }}
+                        >
+                          {fromNow(el.lastUpdated)}
+                        </Typography>
+                      </Box>
+                    </Stack>
+                  </Box>
                 );
               })}
-            </>
+            </Box>
           )}
         </>
       ) : (
-        <div>
+        <>
           <ToastContainer position="top-center" autoClose={2000} />
-        </div>
+        </>
       )}
     </>
   );
