@@ -7,7 +7,6 @@ import { ApplicationProvider } from "./context/applicationContext";
 export const metadata: Metadata = {
   title: "Website builder",
   description: "Create Your Powerful Website Today - No Code Necessary",
-  viewport: "width=device-width, initial-scale=1.0",
   authors: [{ name: "Balaji", url: "https://balajidev.onrender.com" }],
   keywords: ["website builder", "low-code-platform", "landing page builder"],
 };
