@@ -18,6 +18,7 @@
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "dayjs": "^1.11.13",
+    "formik": "^2.4.6",
     "grapesjs": "^0.21.12",
     "grapesjs-blocks-basic": "^1.0.2",
     "grapesjs-blocks-bootstrap4": "^0.2.3",
@@ -27,7 +28,8 @@
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
-    "react-toastify": "^10.0.6"
+    "react-toastify": "^10.0.6",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/bootstrap": "^5.2.10",

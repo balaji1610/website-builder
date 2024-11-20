@@ -15,6 +15,9 @@ import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { FormHelperText } from "@mui/material";
 
 import userservice from "@/app/userservice/userservice";
 import { crendentialType } from "@/app/interface/interface";
@@ -39,9 +42,24 @@ export default function Login() {
     });
   };
 
-  const clickLogin = () => {
-    login();
-  };
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+
+    validationSchema: Yup.object({
+      username: Yup.string().email(),
+      password: Yup.string()
+        .min(8, "Require 8 to 15 characters")
+        .max(15, "Require 8 to 15 characters")
+        .required("Required"),
+    }),
+
+    onSubmit: (values) => {
+      login();
+    },
+  });
 
   return (
     <Box>
@@ -58,6 +76,8 @@ export default function Login() {
             padding: "2rem",
             borderRadius: "20px",
           }}
+          component="form"
+          onSubmit={formik.handleSubmit}
         >
           <Stack
             direction="column"
@@ -65,6 +85,7 @@ export default function Login() {
             justifyContent="center"
             alignItems="center"
           >
+            {" "}
             <Box>
               <AccountCircleIcon color="primary" fontSize="large" />
             </Box>
@@ -73,8 +94,17 @@ export default function Login() {
                 required
                 label="Email Address"
                 sx={{ width: "16rem" }}
+                type="email"
                 name="username"
-                onChange={(event) => handleOnchange(event)}
+                value={formik.values.username}
+                onChange={(event) => {
+                  handleOnchange(event);
+                  formik.handleChange(event);
+                }}
+                helperText={formik.touched.username && formik.errors.username}
+                error={
+                  formik.touched.username && Boolean(formik.errors.username)
+                }
               />
             </Box>
             <Box>
@@ -91,18 +121,26 @@ export default function Login() {
                   }
                   label="Password"
                   name="password"
-                  onChange={(event) => handleOnchange(event)}
+                  value={formik.values.password}
+                  onChange={(event) => {
+                    handleOnchange(event);
+                    formik.handleChange(event);
+                  }}
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
                 />
+                {formik.touched.password && formik.errors.password && (
+                  <FormHelperText error>
+                    {formik.errors.password}
+                  </FormHelperText>
+                )}
               </FormControl>
             </Box>
             <Box>
               <LoadingButton
+                type="submit"
                 variant="contained"
-                disabled={
-                  crendential.username.length < 2 ||
-                  crendential.password.length < 2
-                }
-                onClick={clickLogin}
                 loading={isActionLoading}
               >
                 LOGIN
