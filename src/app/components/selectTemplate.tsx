@@ -12,6 +12,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Stack from "@mui/material/Stack";
 
 import Logout from "@/app/components/logout";
+import Footer from "@/app/components/footer";
 import Architect from "../../../public/template-images/Architect-Template.png";
 import CV from "../../../public/template-images/CV-Template.png";
 import Gallery from "../../../public/template-images/Gallery-template.png";
@@ -82,11 +83,11 @@ export default function SelectTemplate() {
     }
   };
   return (
-    <>
+    <Box>
       {isTokenValid ? (
         <>
           <Logout />
-          <Box sx={{ m: "1rem 0 2rem 1rem" }}>
+          <Box sx={{ m: "1rem 0 1rem 1rem" }}>
             <Typography variant="h5">Starter Templates</Typography>
           </Box>
           {isLoading ? (
@@ -95,17 +96,18 @@ export default function SelectTemplate() {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "center",
+                height: "80vh",
               }}
             >
               <CircularProgress size="30px" />
             </Box>
           ) : (
-            <Box sx={{ overflowY: "scroll", height: "400px" }}>
+            <Box sx={{ height: "80vh", marginLeft: "2rem" }}>
               {allTemplates.flat().map((el: templateType, index: number) => {
                 return (
                   <Box
                     sx={{
-                      m: "20px 20px 10px 20px",
+                      m: "10px 20px 10px 20px",
                       border: "1px solid #DFDFDE",
                       display: "inline-block",
                       cursor: "pointer",
@@ -154,12 +156,17 @@ export default function SelectTemplate() {
               })}
             </Box>
           )}
+
+          <>
+            {" "}
+            <Footer />
+          </>
         </>
       ) : (
         <>
           <ToastContainer position="top-center" autoClose={2000} />
         </>
       )}
-    </>
+    </Box>
   );
 }

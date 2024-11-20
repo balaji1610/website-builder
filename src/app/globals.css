@@ -14,11 +14,12 @@
 .gjs-pn-views-container {
   padding: 42px 0 45px 0 !important;
 }
-html {
-  overflow: hidden !important;
-}
+
 #gjs {
   height: 94vh !important;
-  overflow: scroll;
-  overflow-x: hidden;
+  overflow: hidden !important;
+}
+
+body {
+  margin: 0;
 }
