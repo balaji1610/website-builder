@@ -75,9 +75,10 @@ export default function UpdatePassword() {
     },
 
     validationSchema: Yup.object({
-      password: Yup.string()
-        .min(8, "Require 8 to 15 characters")
-        .max(15, "Require 8 to 15 characters"),
+      password: Yup.string().matches(
+        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/,
+        "Required:At least one uppercase, lowercase, number, special character and 8–15 characters"
+      ),
       confirmpassword: Yup.string().test(
         "passwords-match",
         "Password must match",
@@ -136,38 +137,49 @@ export default function UpdatePassword() {
                   />
                 </Box>
                 <Box>
-                  <FormControl variant="outlined" required>
-                    <InputLabel>Password</InputLabel>
-                    <OutlinedInput
-                      type={showPassword ? "text" : "password"}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => handleClickShowPassword("Password")}
-                            edge="end"
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      label="Password"
-                      name="password"
-                      value={formik.values.password}
-                      onChange={(event) => {
-                        handleOnChangePassword(event);
-                        formik.handleChange(event);
-                      }}
-                      error={
-                        formik.touched.password &&
-                        Boolean(formik.errors.password)
-                      }
-                    />
+                  <Box>
+                    {" "}
+                    <FormControl variant="outlined" required>
+                      <InputLabel>Password</InputLabel>
+                      <OutlinedInput
+                        type={showPassword ? "text" : "password"}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() =>
+                                handleClickShowPassword("Password")
+                              }
+                              edge="end"
+                            >
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                        label="Password"
+                        name="password"
+                        value={formik.values.password}
+                        onChange={(event) => {
+                          handleOnChangePassword(event);
+                          formik.handleChange(event);
+                        }}
+                        error={
+                          formik.touched.password &&
+                          Boolean(formik.errors.password)
+                        }
+                      />
+                    </FormControl>
+                  </Box>
+                  <Box sx={{ width: "14vw", height: "5vh" }}>
                     {formik.touched.password && formik.errors.password && (
-                      <FormHelperText error>
+                      <FormHelperText error sx={{ width: "17rem" }}>
                         {formik.errors.password}
                       </FormHelperText>
                     )}
-                  </FormControl>
+                  </Box>
                 </Box>
                 <Box>
                   <FormControl variant="outlined" required>
