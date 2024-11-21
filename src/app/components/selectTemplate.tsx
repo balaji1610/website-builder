@@ -48,7 +48,7 @@ export default function SelectTemplate() {
       case "Architect-Template":
         image = Architect;
         break;
-      case "Gallery-template":
+      case "Gallery-Template":
         image = Gallery;
         break;
       case "Marketing-Template":
