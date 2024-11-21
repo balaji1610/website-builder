@@ -8,22 +8,26 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useApplicationContext } from "@/app/context/applicationContext";
-
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { FormHelperText } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
-
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+
 import userservice from "@/app/userservice/userservice";
 import { updatePasswordType } from "@/app/interface/interface";
+import { useApplicationContext } from "@/app/context/applicationContext";
 
 export default function UpdatePassword() {
   const router = useRouter();
-  const { resetUserID, resetUsername } = useApplicationContext();
+  const { resetUserID, resetUsername, isActionLoading } =
+    useApplicationContext();
   const { updateNewPassword } = userservice();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -52,11 +56,6 @@ export default function UpdatePassword() {
     });
   };
 
-  const handleClickSavePassword = () => {
-    const userUpdatePassword = { ...resetUserID, ...updatePassword };
-    updateNewPassword(userUpdatePassword);
-  };
-
   useEffect(() => {
     if (!resetUserID._id) {
       setIsValidID(false);
@@ -69,6 +68,30 @@ export default function UpdatePassword() {
     }
     /* eslint-disable */
   }, []);
+  const formik = useFormik({
+    initialValues: {
+      password: null,
+      confirmpassword: null,
+    },
+
+    validationSchema: Yup.object({
+      password: Yup.string()
+        .min(8, "Require 8 to 15 characters")
+        .max(15, "Require 8 to 15 characters"),
+      confirmpassword: Yup.string().test(
+        "passwords-match",
+        "Password must match",
+        function (value) {
+          return this.parent.password === value;
+        }
+      ),
+    }),
+
+    onSubmit: () => {
+      const userUpdatePassword = { ...resetUserID, ...updatePassword };
+      updateNewPassword(userUpdatePassword);
+    },
+  });
 
   return (
     <>
@@ -77,16 +100,18 @@ export default function UpdatePassword() {
           <Stack
             direction="column"
             spacing={1}
-            justifyContent="flex-end"
+            justifyContent="center"
             alignItems="center"
-            height="30rem"
+            height="100vh"
           >
             <Box
               sx={{
-                border: "1px solid #E4E0E1",
+                border: "3px solid #E4E0E1",
                 padding: "2rem",
                 borderRadius: "20px",
               }}
+              component="form"
+              onSubmit={formik.handleSubmit}
             >
               <Stack
                 direction="column"
@@ -127,8 +152,21 @@ export default function UpdatePassword() {
                       }
                       label="Password"
                       name="password"
-                      onChange={(event) => handleOnChangePassword(event)}
+                      value={formik.values.password}
+                      onChange={(event) => {
+                        handleOnChangePassword(event);
+                        formik.handleChange(event);
+                      }}
+                      error={
+                        formik.touched.password &&
+                        Boolean(formik.errors.password)
+                      }
                     />
+                    {formik.touched.password && formik.errors.password && (
+                      <FormHelperText error>
+                        {formik.errors.password}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Box>
                 <Box>
@@ -154,23 +192,32 @@ export default function UpdatePassword() {
                       }
                       label="confirm password"
                       name="confirmpassword"
-                      onChange={(event) => handleOnChangePassword(event)}
+                      value={formik.values.confirmpassword}
+                      onChange={(event) => {
+                        handleOnChangePassword(event);
+                        formik.handleChange(event);
+                      }}
+                      error={
+                        formik.touched.confirmpassword &&
+                        Boolean(formik.errors.confirmpassword)
+                      }
                     />
+                    {formik.touched.confirmpassword &&
+                      formik.errors.confirmpassword && (
+                        <FormHelperText error>
+                          {formik.errors.confirmpassword}
+                        </FormHelperText>
+                      )}
                   </FormControl>
                 </Box>
                 <Box>
-                  <Button
+                  <LoadingButton
+                    type="submit"
                     variant="contained"
-                    disabled={
-                      !(
-                        updatePassword.password ===
-                        updatePassword.confirmpassword
-                      )
-                    }
-                    onClick={handleClickSavePassword}
+                    loading={isActionLoading}
                   >
                     Save
-                  </Button>
+                  </LoadingButton>
                 </Box>
               </Stack>
             </Box>

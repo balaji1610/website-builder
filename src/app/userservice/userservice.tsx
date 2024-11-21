@@ -63,7 +63,7 @@ export default function Userservice() {
         return response.data;
       }
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message ?? "Something Went Wrong");
       setIsActionLoading(false);
       console.error(error);
     }
@@ -162,7 +162,7 @@ export default function Userservice() {
         return response.data;
       }
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message ?? "Something Went Wrong");
       console.error(error);
     }
   };
@@ -180,7 +180,7 @@ export default function Userservice() {
         return response.data;
       }
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message ?? "Something Went Wrong");
     }
   };
 
@@ -188,9 +188,11 @@ export default function Userservice() {
     userUpdatePassword: userUpdatePasswordType
   ) => {
     try {
+      setIsActionLoading(true);
       const response = await updatePasswordRequest(userUpdatePassword);
       if (response.status == 200) {
         toast.success(response.data.message);
+
         setResetUserID((prev: resetUserIDType) => {
           return { ...prev, _id: null };
         });
@@ -199,11 +201,13 @@ export default function Userservice() {
           return { ...prev, username: null };
         });
         await delay(2000);
+        setIsActionLoading(false);
         router.push("./");
         return response.data.message;
       }
     } catch (error: any) {
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.message ?? "Something Went Wrong");
+      setIsActionLoading(false);
     }
   };
 

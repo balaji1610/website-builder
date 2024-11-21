@@ -52,8 +52,7 @@ export default function Login() {
       username: Yup.string().email(),
       password: Yup.string()
         .min(8, "Require 8 to 15 characters")
-        .max(15, "Require 8 to 15 characters")
-        .required("Required"),
+        .max(15, "Require 8 to 15 characters"),
     }),
 
     onSubmit: (values) => {
@@ -66,13 +65,13 @@ export default function Login() {
       <Stack
         direction="column"
         spacing={1}
-        justifyContent="flex-end"
+        justifyContent="center"
         alignItems="center"
-        height="30rem"
+        height="100vh"
       >
         <Box
           sx={{
-            border: "1px solid #E4E0E1",
+            border: "3px solid #E4E0E1",
             padding: "2rem",
             borderRadius: "20px",
           }}
@@ -109,7 +108,9 @@ export default function Login() {
             </Box>
             <Box>
               <FormControl variant="outlined" required>
-                <InputLabel>Password</InputLabel>
+                <InputLabel error={Boolean(formik.errors.password)}>
+                  Password
+                </InputLabel>
                 <OutlinedInput
                   type={showPassword ? "text" : "password"}
                   endAdornment={
