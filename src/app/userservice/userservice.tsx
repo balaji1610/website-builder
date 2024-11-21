@@ -162,6 +162,9 @@ export default function Userservice() {
         await delay(2000);
         router.push("./");
         return response.data;
+      } else {
+        setIsActionLoading(false);
+        toast.error(response.data.message);
       }
     } catch (error: any) {
       toast.error(error.response.data.message ?? "Something Went Wrong");
