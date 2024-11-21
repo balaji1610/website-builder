@@ -38,9 +38,9 @@ export default function ResetPassword() {
       <Stack
         direction="column"
         spacing={1}
-        justifyContent="flex-end"
+        justifyContent="center"
         alignItems="center"
-        height="27rem"
+        height="100vh"
       >
         <Box
           sx={{

@@ -151,8 +151,10 @@ export default function Userservice() {
 
   const createAccount = async () => {
     try {
+      setIsActionLoading(true);
       const response = await createAccountRequest(newUserCrendential);
       if (response.status == 200) {
+        setIsActionLoading(false);
         toast.success("Account created successfully!");
         setnewUserCrendential((prev: crendentialType) => {
           return { ...prev, username: "", password: "" };
@@ -163,6 +165,7 @@ export default function Userservice() {
       }
     } catch (error: any) {
       toast.error(error.response.data.message ?? "Something Went Wrong");
+      setIsActionLoading(false);
       console.error(error);
     }
   };
