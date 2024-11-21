@@ -172,6 +172,7 @@ export default function Userservice() {
 
   const resetPassword = async (resetUsername: resetUsernameType) => {
     try {
+      setIsActionLoading(true);
       const response = await resetPasswordRequest(resetUsername);
       if (response.status == 200) {
         setResetUserID((prev: resetUserIDType) => {
@@ -179,11 +180,13 @@ export default function Userservice() {
         });
         toast.success("Successfully find your account !");
         await delay(2000);
+        setIsActionLoading(false);
         router.push("./updatepassword");
         return response.data;
       }
     } catch (error: any) {
       toast.error(error.response.data.message ?? "Something Went Wrong");
+      setIsActionLoading(false);
     }
   };
 

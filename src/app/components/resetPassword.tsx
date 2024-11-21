@@ -10,6 +10,9 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 import userservice from "@/app/userservice/userservice";
 import { resetUsernameType } from "@/app/interface/interface";
@@ -18,7 +21,8 @@ export default function ResetPassword() {
   const router = useRouter();
   const { resetPassword } = userservice();
 
-  const { resetUsername, setResetUsername } = useApplicationContext();
+  const { resetUsername, setResetUsername, isActionLoading } =
+    useApplicationContext();
 
   const handleOnChangeResetPassword = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -29,10 +33,19 @@ export default function ResetPassword() {
     });
   };
 
-  const handleClickResetPassword = () => {
-    resetPassword(resetUsername);
-  };
+  const formik = useFormik({
+    initialValues: {
+      username: null,
+    },
 
+    validationSchema: Yup.object({
+      username: Yup.string().email(),
+    }),
+
+    onSubmit: () => {
+      resetPassword(resetUsername);
+    },
+  });
   return (
     <Box>
       <Stack
@@ -44,10 +57,12 @@ export default function ResetPassword() {
       >
         <Box
           sx={{
-            border: "1px solid #E4E0E1",
+            border: "3px solid #E4E0E1",
             padding: "2rem",
             borderRadius: "20px",
           }}
+          component="form"
+          onSubmit={formik.handleSubmit}
         >
           <Stack
             direction="column"
@@ -68,18 +83,28 @@ export default function ResetPassword() {
                 required
                 label="Enter Your Email"
                 name="username"
-                onChange={(event) => handleOnChangeResetPassword(event)}
+                type="email"
+                value={formik.values.username}
+                onChange={(event) => {
+                  handleOnChangeResetPassword(event);
+                  formik.handleChange(event);
+                }}
+                helperText={formik.touched.username && formik.errors.username}
+                error={
+                  formik.touched.username && Boolean(formik.errors.username)
+                }
               />
             </Box>
             <Box>
-              <Button
+              <LoadingButton
+                type="submit"
                 variant="contained"
+                loading={isActionLoading}
                 size="large"
                 sx={{ width: "14rem" }}
-                onClick={handleClickResetPassword}
               >
                 Reset Password
-              </Button>
+              </LoadingButton>
             </Box>
             <Box>
               <Stack direction="row" spacing={1}>
