@@ -6,6 +6,7 @@ const SelectTemplate = dynamic(
     ssr: false,
   }
 );
+
 export default function SelectTemplatePage() {
   return (
     <>

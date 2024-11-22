@@ -8,8 +8,7 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import { usePathname } from "next/navigation";
 
 import {
@@ -71,17 +70,19 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
       password: "",
     }
   );
+
   const [selectedTemplate, setSelectedTemplate] = useState<templateType | null>(
     null
   );
+
   const [allTemplates, setAllTemplates] = useState<templateType[]>([]);
   const [currentUserName, setCurrentUserName] = useState<string>("");
   const [currsentUserId, serCurrentUserId] = useState<string>("");
-
   const [userRecord, setUserRecord] = useState<userRecordType[]>([]);
   const [resetUserID, setResetUserID] = useState<resetUserIDType>({
     _id: null,
   });
+
   const [resetUsername, setResetUsername] = useState<resetUsernameType>({
     username: null,
   });
@@ -95,6 +96,7 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
     isSavePageLoading: false,
     isPublishLoading: false,
   });
+
   const [isTokenValid, setIsTokenValid] = useState<boolean | null>(null);
 
   let currentToken: string | null | undefined;
@@ -113,6 +115,7 @@ const ApplicationProvider: React.FC<ContextProps> = ({ children }) => {
     }
     /* eslint-disable */
   }, [pathname]);
+
   return (
     <ApplicationContext.Provider
       value={{

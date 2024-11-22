@@ -5,14 +5,14 @@ import grapesjs from "grapesjs";
 import "grapesjs/dist/css/grapes.min.css";
 import "grapesjs/dist/grapes.min.js";
 import plugin from "grapesjs-blocks-basic";
-
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import dayjs from "dayjs";
-import Logout from "./logout";
+
 import { useApplicationContext } from "../context/applicationContext";
 import userservice from "@/app/userservice/userservice";
 import { userRecordType, templateType } from "@/app/interface/interface";
+import Logout from "./logout";
 
 export default function Canvas() {
   const router = useRouter();
@@ -29,7 +29,9 @@ export default function Canvas() {
   const [afterSaveTemplate, setAfterSaveTemplate] = useState(
     selectedTemplate?.template
   );
+
   const now = dayjs().format("YYYY-MM-DD HH:mm:ss");
+
   const savePage = async (template: string) => {
     setAfterSaveTemplate(template);
     const saveTemplate = userRecord.map((el: userRecordType) => {
@@ -150,7 +152,6 @@ export default function Canvas() {
     <>
       {isTokenValid ? (
         <>
-          {" "}
           <Logout />
           <div id="gjs"></div>
           <ToastContainer position="top-right" autoClose={2000} />

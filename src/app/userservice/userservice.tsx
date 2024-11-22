@@ -52,7 +52,9 @@ export default function Userservice() {
       setIsLoadingButton((prev) => {
         return { ...prev, isLoginLoading: true };
       });
+
       const response = await loginRequest(crendential);
+
       if (response.status == 200) {
         toast.success(response.data.message);
         setCrendential((prev: crendentialType) => {
@@ -115,6 +117,7 @@ export default function Userservice() {
         return { ...prev, isSavePageLoading: true };
       });
       const response = await updateTemplateRequest(currsentUserId, template);
+
       if (response.status == 200) {
         toast.success("Save Successfully !");
         getTemplates(currsentUserId);
@@ -174,6 +177,7 @@ export default function Userservice() {
         return { ...prev, isSaveAccountLoading: true };
       });
       const response = await createAccountRequest(newUserCrendential);
+
       if (response.status == 200) {
         setIsLoadingButton((prev) => {
           return { ...prev, isSaveAccountLoading: false };
@@ -207,6 +211,7 @@ export default function Userservice() {
       });
 
       const response = await resetPasswordRequest(resetUsername);
+
       if (response.status == 200) {
         setResetUserID((prev: resetUserIDType) => {
           return { ...prev, _id: response.data._id };
@@ -237,9 +242,9 @@ export default function Userservice() {
       });
 
       const response = await updatePasswordRequest(userUpdatePassword);
+
       if (response.status == 200) {
         toast.success(response.data.message);
-
         setResetUserID((prev: resetUserIDType) => {
           return { ...prev, _id: null };
         });

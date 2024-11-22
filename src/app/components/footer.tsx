@@ -7,10 +7,10 @@ export default function Footer() {
   return (
     <Box
       sx={{
-        border: "1px solid #ffffff",
+        border: "2px solid #ffffff",
         backgroundColor: "#444444",
         mt: "10px",
-        color: "#fff",
+        color: "#ffffff",
       }}
     >
       <Stack spacing={1}>
@@ -22,7 +22,7 @@ export default function Footer() {
                 href="https://balajidev.onrender.com/"
                 target="_blank"
                 underline="none"
-                sx={{ color: "#E2F1E7", fontWeight: "bold" }}
+                sx={{ color: "#78B3CE", fontWeight: "bold" }}
               >
                 &nbsp;Balaji
               </Link>

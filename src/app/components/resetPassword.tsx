@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
 import { Box, Stack } from "@mui/material";
 import HttpsIcon from "@mui/icons-material/Https";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -17,6 +16,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import userservice from "@/app/userservice/userservice";
 import { resetUsernameType } from "@/app/interface/interface";
 import { useApplicationContext } from "@/app/context/applicationContext";
+
 export default function ResetPassword() {
   const router = useRouter();
   const { resetPassword } = userservice();
@@ -46,6 +46,7 @@ export default function ResetPassword() {
       resetPassword(resetUsername);
     },
   });
+
   return (
     <Box>
       <Stack

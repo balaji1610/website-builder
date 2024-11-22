@@ -82,6 +82,7 @@ export default function SelectTemplate() {
       return dayjs().to(dayjs(now));
     }
   };
+
   return (
     <Box>
       {isTokenValid ? (

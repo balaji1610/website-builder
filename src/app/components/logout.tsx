@@ -12,17 +12,18 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Typography from "@mui/material/Typography";
-import Chip from "@mui/material/Chip";
+import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
+
 import { useApplicationContext } from "../context/applicationContext";
 import userservice from "@/app/userservice/userservice";
 
-import ArrowBackIosNewOutlinedIcon from "@mui/icons-material/ArrowBackIosNewOutlined";
 export default function Logout() {
   const router = useRouter();
   const pathname = usePathname();
 
   const { currentUserName, setIsTokenValid, selectedTemplate, loadingButton } =
     useApplicationContext();
+
   const { downloadfile } = userservice();
 
   const [isCanvasPage, setIsCanvasPage] = useState<boolean>(false);

@@ -67,6 +67,7 @@ export default function UpdatePassword() {
     }
     /* eslint-disable */
   }, []);
+
   const formik = useFormik({
     initialValues: {
       password: null,
