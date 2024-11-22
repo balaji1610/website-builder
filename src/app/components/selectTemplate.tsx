@@ -128,6 +128,7 @@ export default function SelectTemplate() {
                           style={{
                             objectFit: "fill",
                           }}
+                          priority
                         />
                       </Box>
                       <Box sx={{ borderTop: "1px solid #EBEAFF" }}>

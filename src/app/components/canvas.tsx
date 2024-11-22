@@ -21,8 +21,7 @@ export default function Canvas() {
     userRecord,
     isTokenValid,
     setIsTokenValid,
-    isActionLoading,
-    setIsActionLoading,
+    loadingButton,
   } = useApplicationContext();
 
   const { updateTemplate } = userservice();
@@ -115,7 +114,7 @@ export default function Canvas() {
       editor.Panels.addButton("options", {
         id: "custom-button",
         command: "save-page",
-        label: isActionLoading
+        label: loadingButton.isSavePageLoading
           ? `<button style="cursor: pointer">Loading....</button>`
           : `<button style="cursor: pointer">SAVE</button>`,
         attributes: {
@@ -145,7 +144,7 @@ export default function Canvas() {
     }
 
     /* eslint-disable */
-  }, [setIsTokenValid, isTokenValid, isActionLoading]);
+  }, [setIsTokenValid, isTokenValid, loadingButton.isSavePageLoading]);
 
   return (
     <>

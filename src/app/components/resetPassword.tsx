@@ -21,7 +21,7 @@ export default function ResetPassword() {
   const router = useRouter();
   const { resetPassword } = userservice();
 
-  const { resetUsername, setResetUsername, isActionLoading } =
+  const { resetUsername, setResetUsername, loadingButton } =
     useApplicationContext();
 
   const handleOnChangeResetPassword = (
@@ -99,7 +99,7 @@ export default function ResetPassword() {
               <LoadingButton
                 type="submit"
                 variant="contained"
-                loading={isActionLoading}
+                loading={loadingButton.isResetPasswordLoading}
                 size="large"
                 sx={{ width: "14rem" }}
               >

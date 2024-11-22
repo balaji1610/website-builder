@@ -26,8 +26,7 @@ import { useApplicationContext } from "@/app/context/applicationContext";
 
 export default function UpdatePassword() {
   const router = useRouter();
-  const { resetUserID, resetUsername, isActionLoading } =
-    useApplicationContext();
+  const { resetUserID, resetUsername, loadingButton } = useApplicationContext();
   const { updateNewPassword } = userservice();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -226,7 +225,7 @@ export default function UpdatePassword() {
                   <LoadingButton
                     type="submit"
                     variant="contained"
-                    loading={isActionLoading}
+                    loading={loadingButton.isSavePasswordLoading}
                   >
                     Save
                   </LoadingButton>

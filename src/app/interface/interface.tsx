@@ -32,6 +32,15 @@ export interface updatePasswordType {
   confirmpassword: null | string;
 }
 
+export interface loadingButtonType {
+  isLoginLoading: boolean;
+  isResetPasswordLoading: boolean;
+  isSavePasswordLoading: boolean;
+  isSaveAccountLoading: boolean;
+  isSavePageLoading: boolean;
+  isPublishLoading: boolean;
+}
+
 export interface userUpdatePasswordType
   extends resetUserIDType,
     updatePasswordType {}

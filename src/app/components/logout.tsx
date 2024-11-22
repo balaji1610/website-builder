@@ -21,12 +21,8 @@ export default function Logout() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const {
-    currentUserName,
-    setIsTokenValid,
-    isPublishLoading,
-    selectedTemplate,
-  } = useApplicationContext();
+  const { currentUserName, setIsTokenValid, selectedTemplate, loadingButton } =
+    useApplicationContext();
   const { downloadfile } = userservice();
 
   const [isCanvasPage, setIsCanvasPage] = useState<boolean>(false);
@@ -102,12 +98,14 @@ export default function Logout() {
                 {isCanvasPage && (
                   <LoadingButton
                     variant="contained"
-                    color={isPublishLoading ? "primary" : "success"}
+                    color={
+                      loadingButton.isPublishLoading ? "primary" : "success"
+                    }
                     onClick={() => downloadfile()}
                     sx={{
                       mt: "5px",
                     }}
-                    loading={isPublishLoading}
+                    loading={loadingButton.isPublishLoading}
                   >
                     Publish
                   </LoadingButton>

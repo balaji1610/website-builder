@@ -10,7 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Button from "@mui/material/Button";
+
 import Typography from "@mui/material/Typography";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,8 +26,7 @@ import { crendentialType } from "@/app/interface/interface";
 
 export default function CreateAccount() {
   const router = useRouter();
-  const { setnewUserCrendential, newUserCrendential, isActionLoading } =
-    useApplicationContext();
+  const { setnewUserCrendential, loadingButton } = useApplicationContext();
   const { createAccount } = userservice();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -152,7 +151,7 @@ export default function CreateAccount() {
               <LoadingButton
                 type="submit"
                 variant="contained"
-                loading={isActionLoading}
+                loading={loadingButton.isSaveAccountLoading}
               >
                 SIGN UP
               </LoadingButton>

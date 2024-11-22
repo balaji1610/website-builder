@@ -20,6 +20,7 @@ import {
   userRecordType,
   resetUsernameType,
   userUpdatePasswordType,
+  loadingButtonType,
 } from "@/app/interface/interface";
 
 export default function Userservice() {
@@ -40,8 +41,7 @@ export default function Userservice() {
     setAllTemplates,
     setUserRecord,
     setResetUsername,
-    setIsActionLoading,
-    setisPublishLoading,
+    setIsLoadingButton,
   } = useApplicationContext();
 
   const delay = (ms: number) =>
@@ -49,7 +49,9 @@ export default function Userservice() {
 
   const login = async () => {
     try {
-      setIsActionLoading(true);
+      setIsLoadingButton((prev) => {
+        return { ...prev, isLoginLoading: true };
+      });
       const response = await loginRequest(crendential);
       if (response.status == 200) {
         toast.success(response.data.message);
@@ -58,13 +60,17 @@ export default function Userservice() {
         });
         localStorage.setItem("token", response.data.token);
         await delay(2000);
-        setIsActionLoading(false);
+        setIsLoadingButton((prev) => {
+          return { ...prev, isLoginLoading: false };
+        });
         router.push("./selecttemplate");
         return response.data;
       }
     } catch (error: any) {
       toast.error(error.response.data.message ?? "Something Went Wrong");
-      setIsActionLoading(false);
+      setIsLoadingButton((prev) => {
+        return { ...prev, isLoginLoading: false };
+      });
       console.error(error);
     }
   };
@@ -105,17 +111,23 @@ export default function Userservice() {
 
   const updateTemplate = async (template: userRecordType) => {
     try {
-      setIsActionLoading(true);
+      setIsLoadingButton((prev) => {
+        return { ...prev, isSavePageLoading: true };
+      });
       const response = await updateTemplateRequest(currsentUserId, template);
       if (response.status == 200) {
         toast.success("Save Successfully !");
         getTemplates(currsentUserId);
-        setIsActionLoading(false);
+        setIsLoadingButton((prev) => {
+          return { ...prev, isSavePageLoading: false };
+        });
         return response.data;
       }
     } catch (error) {
       toast.error("Something went wrong");
-      setIsActionLoading(false);
+      setIsLoadingButton((prev) => {
+        return { ...prev, isSavePageLoading: false };
+      });
       console.log(error);
     }
   };
@@ -123,7 +135,10 @@ export default function Userservice() {
   const downloadfile = async () => {
     const { _id } = selectedTemplate as templateType;
     try {
-      setisPublishLoading(true);
+      setIsLoadingButton((prev) => {
+        return { ...prev, isPublishLoading: true };
+      });
+
       const response = await downlonadFileRequest({
         id: currsentUserId,
         templateID: _id,
@@ -140,21 +155,29 @@ export default function Userservice() {
         link.remove();
         window.URL.revokeObjectURL(url);
         toast.success("Successfully Download File");
-        setisPublishLoading(false);
+        setIsLoadingButton((prev) => {
+          return { ...prev, isPublishLoading: false };
+        });
       }
     } catch (error: any) {
       toast.error("Something went wrong");
-      setisPublishLoading(false);
+      setIsLoadingButton((prev) => {
+        return { ...prev, isPublishLoading: false };
+      });
       console.log(error);
     }
   };
 
   const createAccount = async () => {
     try {
-      setIsActionLoading(true);
+      setIsLoadingButton((prev) => {
+        return { ...prev, isSaveAccountLoading: true };
+      });
       const response = await createAccountRequest(newUserCrendential);
       if (response.status == 200) {
-        setIsActionLoading(false);
+        setIsLoadingButton((prev) => {
+          return { ...prev, isSaveAccountLoading: false };
+        });
         toast.success("Account created successfully!");
         setnewUserCrendential((prev: crendentialType) => {
           return { ...prev, username: "", password: "" };
@@ -163,19 +186,26 @@ export default function Userservice() {
         router.push("./");
         return response.data;
       } else {
-        setIsActionLoading(false);
+        setIsLoadingButton((prev) => {
+          return { ...prev, isSaveAccountLoading: false };
+        });
         toast.error(response.data.message);
       }
     } catch (error: any) {
       toast.error(error.response.data.message ?? "Something Went Wrong");
-      setIsActionLoading(false);
+      setIsLoadingButton((prev) => {
+        return { ...prev, isSaveAccountLoading: false };
+      });
       console.error(error);
     }
   };
 
   const resetPassword = async (resetUsername: resetUsernameType) => {
     try {
-      setIsActionLoading(true);
+      setIsLoadingButton((prev) => {
+        return { ...prev, isResetPasswordLoading: true };
+      });
+
       const response = await resetPasswordRequest(resetUsername);
       if (response.status == 200) {
         setResetUserID((prev: resetUserIDType) => {
@@ -183,13 +213,18 @@ export default function Userservice() {
         });
         toast.success("Successfully find your account !");
         await delay(2000);
-        setIsActionLoading(false);
+        setIsLoadingButton((prev) => {
+          return { ...prev, isResetPasswordLoading: false };
+        });
+
         router.push("./updatepassword");
         return response.data;
       }
     } catch (error: any) {
       toast.error(error.response.data.message ?? "Something Went Wrong");
-      setIsActionLoading(false);
+      setIsLoadingButton((prev) => {
+        return { ...prev, isResetPasswordLoading: false };
+      });
     }
   };
 
@@ -197,7 +232,10 @@ export default function Userservice() {
     userUpdatePassword: userUpdatePasswordType
   ) => {
     try {
-      setIsActionLoading(true);
+      setIsLoadingButton((prev) => {
+        return { ...prev, isSavePasswordLoading: true };
+      });
+
       const response = await updatePasswordRequest(userUpdatePassword);
       if (response.status == 200) {
         toast.success(response.data.message);
@@ -210,13 +248,18 @@ export default function Userservice() {
           return { ...prev, username: null };
         });
         await delay(2000);
-        setIsActionLoading(false);
+        setIsLoadingButton((prev) => {
+          return { ...prev, isSavePasswordLoading: false };
+        });
+
         router.push("./");
         return response.data.message;
       }
     } catch (error: any) {
       toast.error(error.response.data.message ?? "Something Went Wrong");
-      setIsActionLoading(false);
+      setIsLoadingButton((prev) => {
+        return { ...prev, isSavePasswordLoading: false };
+      });
     }
   };
 

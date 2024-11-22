@@ -25,8 +25,7 @@ import { useApplicationContext } from "@/app/context/applicationContext";
 
 export default function Login() {
   const router = useRouter();
-  const { setCrendential, crendential, isActionLoading } =
-    useApplicationContext();
+  const { setCrendential, loadingButton } = useApplicationContext();
   const { login } = userservice();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -152,7 +151,7 @@ export default function Login() {
               <LoadingButton
                 type="submit"
                 variant="contained"
-                loading={isActionLoading}
+                loading={loadingButton.isLoginLoading}
               >
                 LOGIN
               </LoadingButton>
