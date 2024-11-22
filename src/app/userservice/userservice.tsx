@@ -67,7 +67,7 @@ export default function Userservice() {
         return response.data;
       }
     } catch (error: any) {
-      toast.error(error.response.data.message ?? "Something Went Wrong");
+      toast.error("Something Went Wrong");
       setIsLoadingButton((prev) => {
         return { ...prev, isLoginLoading: false };
       });
@@ -192,7 +192,7 @@ export default function Userservice() {
         toast.error(response.data.message);
       }
     } catch (error: any) {
-      toast.error(error.response.data.message ?? "Something Went Wrong");
+      toast.error("Something Went Wrong");
       setIsLoadingButton((prev) => {
         return { ...prev, isSaveAccountLoading: false };
       });
@@ -221,7 +221,7 @@ export default function Userservice() {
         return response.data;
       }
     } catch (error: any) {
-      toast.error(error.response.data.message ?? "Something Went Wrong");
+      toast.error("Something Went Wrong");
       setIsLoadingButton((prev) => {
         return { ...prev, isResetPasswordLoading: false };
       });
@@ -256,7 +256,7 @@ export default function Userservice() {
         return response.data.message;
       }
     } catch (error: any) {
-      toast.error(error.response.data.message ?? "Something Went Wrong");
+      toast.error("Something Went Wrong");
       setIsLoadingButton((prev) => {
         return { ...prev, isSavePasswordLoading: false };
       });
