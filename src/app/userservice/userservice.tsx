@@ -69,7 +69,7 @@ export default function Userservice() {
         return response.data;
       }
     } catch (error: any) {
-      toast.error("Something Went Wrong");
+      toast.error(error?.response?.data?.message ?? "Something Went Wrong");
       setIsLoadingButton((prev) => {
         return { ...prev, isLoginLoading: false };
       });
@@ -127,7 +127,7 @@ export default function Userservice() {
         return response.data;
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Something Went Wrong");
       setIsLoadingButton((prev) => {
         return { ...prev, isSavePageLoading: false };
       });
@@ -226,7 +226,7 @@ export default function Userservice() {
         return response.data;
       }
     } catch (error: any) {
-      toast.error("Something Went Wrong");
+      toast.error(error?.response?.data?.message ?? "Something Went Wrong");
       setIsLoadingButton((prev) => {
         return { ...prev, isResetPasswordLoading: false };
       });
