@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 
 export default function Footer() {
+  const currentYear = new Date();
   return (
     <Box
       sx={{
@@ -16,13 +17,18 @@ export default function Footer() {
       <Stack spacing={1}>
         <Box sx={{ pt: "20px" }}>
           <Typography variant="subtitle1" align="center">
-            © Copyright 2024&nbsp;
+            © Copyright&nbsp;{currentYear.getFullYear()}
             <Typography component="span" sx={{ color: "#219B9D" }}>
               <Link
                 href="https://balajidev.onrender.com/"
                 target="_blank"
                 underline="none"
-                sx={{ color: "#78B3CE", fontWeight: "bold" }}
+                sx={{
+                  color: "#4ED7F1",
+                  fontWeight: "900",
+                  fontStyle: "italic",
+                  fontFamily: "verdana",
+                }}
               >
                 &nbsp;Balaji
               </Link>
